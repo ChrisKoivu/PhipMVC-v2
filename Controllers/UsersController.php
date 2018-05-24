@@ -37,6 +37,10 @@ class UsersController extends Controller
     public function index()
     {
         return $this->_view->render();   
-    }   // end login method 
+    }   
+
+    public function register(){
+        return $this->_view->render();
+    }
     
     } //end of user controller class
