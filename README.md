@@ -1,5 +1,6 @@
 # README #
 
+<<<<<<< HEAD
 
                   CONTROLLER   <---  User
                  /          \     
@@ -36,6 +37,25 @@ This project is a PHP MVC framework that has twitter bootstrap integrated into t
        address bar
        
        
+=======
+This README would normally document whatever steps are necessary to get your application up and running.
+
+### What is this repository for? ###
+
+* Quick summary
+* Version
+* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+
+### How do I get set up? ###
+
+* Summary of set up
+* Configuration
+* Dependencies
+* Database configuration
+* How to run tests
+* Deployment instructions
+
+>>>>>>> 8634239f975e129ac606f08fd082897172ce8eda
 ### Contribution guidelines ###
 
 * Writing tests
@@ -45,4 +65,8 @@ This project is a PHP MVC framework that has twitter bootstrap integrated into t
 ### Who do I talk to? ###
 
 * Repo owner or admin
+<<<<<<< HEAD
 * Other community or team contact
+=======
+* Other community or team contact
+>>>>>>> 8634239f975e129ac606f08fd082897172ce8eda
