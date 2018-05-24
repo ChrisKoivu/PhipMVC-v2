@@ -1,0 +1,1 @@
+These files need to be placed in the root folder of your server, with the "-root" part of the file name removed. ie. index -root.php to index.php
