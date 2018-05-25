@@ -40,6 +40,8 @@ class UsersController extends Controller
     }   
 
     public function register(){
+       
+        /* render the view */
         return $this->_view->render();
     }
     

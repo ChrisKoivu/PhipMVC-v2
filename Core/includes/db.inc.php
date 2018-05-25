@@ -96,6 +96,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         just processed by clicking a 'delete' button
         on a form
      */
+    
      function delete_record($id, $table) {
         $conn = db_connect();
         $sql = "DELETE FROM ". $table . "WHERE id=" .$id;
@@ -107,11 +108,4 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         $conn->close();
      }
 
-     /* remove all html tags and characters */
-     function filter_input_value($str) {
-        $str = trim($str);
-        $str = stripslashes($str);
-        $str = htmlspecialchars($str);
-        return $str;
-     }
- 
+     

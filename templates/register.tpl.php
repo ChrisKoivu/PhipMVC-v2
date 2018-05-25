@@ -5,7 +5,10 @@
   <meta charset="UTF-8">
   <title>register php</title>
   
-  
+  <?php 
+        /* include register user script */
+        include HOME . '/Core/includes/register.inc.php';
+  ?>
   
   
   
