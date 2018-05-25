@@ -32,7 +32,7 @@ function validate_username($username){
 
         // Prepare a select statement
         $sql = "SELECT id FROM users WHERE username = ?";        
-        $conn = db_conn();
+        $conn = db_connect();
 
         if($stmt = $conn->prepare($sql)){
 
@@ -100,7 +100,7 @@ function insert_user($username, $password) {
      if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){  
           // using prepared statement  
           $sql = "INSERT INTO users (username, password) VALUES (?, ?)"; 
-          $conn = db_conn();
+          $conn = db_connect();
 
           if($stmt = $conn->prepare($sql)){
               // Bind variables to the prepared statement as parameters
