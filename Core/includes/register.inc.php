@@ -5,10 +5,11 @@
 $username = $password = "";
 $username_err = $password_err = $confirm_password_err = ""; 
 
-include 'db.inc.php';
+
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){ 
+   include 'db.inc.php';
    $username = validate_username($_POST["username"]);
    $password = validate_password($_POST['password']);
 
