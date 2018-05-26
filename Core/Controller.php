@@ -35,12 +35,11 @@ class Controller
         }
         $this->_controller = ucwords(__CLASS__);
         $this->_action = $action;       
-        $this->_modelBaseName = $model;        
-        $this->_setView($action);
+        $this->_modelBaseName = $model;            
+        $this->_setView($action);      
         $this->_view->set_header();
-        $this->_view->set_footer();
-        Session::init();    
-      
+        $this->_view->set_footer();  
+        Session::init();          
     }
      
     protected function _setModel($modelName)

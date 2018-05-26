@@ -1,44 +1,3 @@
-<!DOCTYPE html>
-<html lang="en" >
-
-<head>
-  <meta charset="UTF-8">
-  <title>register php</title>
-  
-  <?php 
-        /* include register user script */
-        include HOME . '/Core/includes/register.inc.php';
-  ?>
-  
-  
-  
-</head>
-
-<body>
-
-  <!DOCTYPE html>
-
-<html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <title>Sign Up</title>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-
-    <style type="text/css">
-
-        body{ font: 14px sans-serif; }
-
-        .wrapper{ width: 350px; padding: 20px; }
-
-    </style>
-
-</head>
-
-<body>
 
     <div class="wrapper">
 
@@ -92,19 +51,4 @@ $confirm_password; ?>">
 
         </form>
 
-    </div>    
-
-</body>
-
-</html>
-  
-  
-
-    <script  src="js/index.js"></script>
-
-
-
-
-</body>
-
-</html>
+    </div>    <!--close wrapper-->

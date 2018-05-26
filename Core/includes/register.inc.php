@@ -2,14 +2,15 @@
 
 
 // Define variables and initialize with empty values
-$username = $password = "";
+$username = $password =$confirm_password= "";
 $username_err = $password_err = $confirm_password_err = ""; 
 
 
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){ 
-   include 'db.inc.php';
+   require_once 'Database.php';
+   $db = New Database();
    $username = validate_username($_POST["username"]);
    $password = validate_password($_POST['password']);
 
@@ -32,7 +33,7 @@ function validate_username($username){
 
         // Prepare a select statement
         $sql = "SELECT id FROM users WHERE username = ?";        
-        $conn = db_connect();
+        $conn = $db->db_connect();
 
         if($stmt = $conn->prepare($sql)){
 
@@ -126,5 +127,13 @@ function insert_user($username, $password) {
      
       $conn->close();
 } //end of insert user function
+
+/* remove all html tags and characters */
+function filter_input_value($str) {
+    $str = trim($str);
+    $str = stripslashes($str);
+    $str = htmlspecialchars($str);
+    return $str;
+ }
 
 ?>

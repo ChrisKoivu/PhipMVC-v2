@@ -1,12 +1,12 @@
 <?php 
-    include "db.inc.php";
+    require_once "Database.php";
   
  
 
       install_db();
  
     function install_db(){
-        create_database();
+        $db = New Database();
 
         $sql_users = "
         CREATE TABLE IF NOT EXISTS users (
@@ -16,7 +16,7 @@
             email varchar(128) DEFAULT NULL,
             role_id INT NOT NULL
         )";
-        create_table($sql_users);
+        $db->create_table($sql_users);
 
         $sql_roles = "
         CREATE TABLE IF NOT EXISTS roles (
@@ -24,6 +24,6 @@
             role_name varchar(50) DEFAULT NULL
         ) 
         ";
-        create_table($sql_roles);
+        $db->create_table($sql_roles);
     }
 ?>

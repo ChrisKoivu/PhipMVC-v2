@@ -30,7 +30,7 @@ class PostsController extends Controller
     {        
         parent::__construct($model, $action);            
         $this->_setModel(trim($model, 's'));
-     
+        
     }
      
    public function add_post() {
