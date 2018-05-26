@@ -6,8 +6,9 @@
       install_db();
       if(!admin_exists()){
         create_admin_user();
+        insert_roles();
       }
-      insert_roles();
+      
     function install_db(){
         $db = New Database();
 
