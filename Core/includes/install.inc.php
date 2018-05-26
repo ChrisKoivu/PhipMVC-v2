@@ -53,8 +53,6 @@
     function insert_roles(){
         $db = New Database();
         $conn = $db->db_connect();
-        $sql = "INSERT INTO role (id, role_name)
-        VALUES (ADMIN_ID, 'admin')";
         // prepare and bind
         $stmt = $conn->prepare("INSERT INTO role(id, role_name) VALUES (?, ?)");
         $stmt->bind_param("ss", $id, $role_name);
