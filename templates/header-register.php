@@ -8,14 +8,15 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>New Bootstrap Template</title>
+    <title><?php echo SITE_TITLE ?></title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">  </head>
-    <?php include HOME . '/Core/includes/register.inc.php'; ?>
+    
     <style type="text/css">
        body{ font: 14px sans-serif; }
-      .wrapper{ width: 350px; padding: 20px; }
+      .wrapper{ width: 350px; padding: 20px; margin-top:80px;}
+      .help-block{color:red;}
     </style>
 
   </head>

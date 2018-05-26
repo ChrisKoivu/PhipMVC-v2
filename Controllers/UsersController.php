@@ -40,7 +40,7 @@ class UsersController extends Controller
     }   
 
     public function register(){
-        /* overriding the header set in the parent class */
+        /* overriding the default header set in the parent class */
         $this->_view->set_header('header-register.php');
         /* render the view */
         return $this->_view->render();

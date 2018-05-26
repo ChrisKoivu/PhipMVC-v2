@@ -27,7 +27,7 @@ define ('DB_HOST',  'localhost');
 define ('DB_NAME',  'phipmvc');
 define ('DB_USER',   'root');
 define ('DB_PASS',   'zdrnko114');
-
+define ('SITE_TITLE', 'PHIP MVC v2');
 /* manually provided salt. should be changed for each application for security */
 define ('SALT',  'NULL');
 
@@ -39,7 +39,13 @@ define ('SALT',  'NULL');
 */
 define('DEFAULT_ADMIN_USERNAME',  'chriskoi');
 define('DEFAULT_ADMIN_PASSWORD',  'zdrnko114');
-define('DEFAULT_ADMIN_EMAIL',  'mail@chriskoivu.com');
+define('DEFAULT_ADMIN_EMAIL',  'admin@admin.com');
+
+/*set the integer value that will identify the user access as admin*/
+define('ADMIN_ID', 'vs785');
+
+/*set the integer value that will identify the user access as a regular user */
+define('USER_ID', '456');
 
 
 /* this is the folder where your installation resides */ 

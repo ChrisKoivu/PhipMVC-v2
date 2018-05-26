@@ -10,7 +10,7 @@ $username_err = $password_err = $confirm_password_err = "";
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){ 
    require_once 'Database.php';
-   $db = New Database();
+   
    $username = validate_username($_POST["username"]);
    $password = validate_password($_POST['password']);
 
@@ -21,7 +21,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 } /* end of server request method */
 
+function get_username_error(){
+    global $username_err;
+    return $username_err;
+}
 
+function get_confirm_password_error(){
+    global $confirm_password_err;
+    return $confirm_password_err;
+}
+
+function get_password_error(){
+    global $password_err;
+    return $password_err;
+}
 
 function validate_username($username){
     global $username_err;
@@ -30,7 +43,7 @@ function validate_username($username){
     if(empty(trim($username))){
         $username_err = "Please enter a username.";
     } else{
-
+        $db = New Database();
         // Prepare a select statement
         $sql = "SELECT id FROM users WHERE username = ?";        
         $conn = $db->db_connect();
@@ -95,13 +108,12 @@ function verify_password_match($password, $confirm_password) {
 }
 
 function insert_user($username, $password) {
-     global $username_err, $password_err, $confirm_password_err;
-
      // check for invalid inputs 
-     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){  
+     if(empty(get_username_error()) && empty(get_password_error()) && empty(get_confirm_password_error())){  
+          $db = New Database();
           // using prepared statement  
           $sql = "INSERT INTO users (username, password) VALUES (?, ?)"; 
-          $conn = db_connect();
+          $conn = $db->db_connect();
 
           if($stmt = $conn->prepare($sql)){
               // Bind variables to the prepared statement as parameters
