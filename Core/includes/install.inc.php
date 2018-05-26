@@ -7,7 +7,7 @@
       if(!admin_exists()){
         create_admin_user();
       }
-      insert_admin_role();
+      insert_roles();
     function install_db(){
         $db = New Database();
 
@@ -50,17 +50,28 @@
         $conn->close();
     }
 
-    function insert_admin_role(){
+    function insert_roles(){
         $db = New Database();
         $conn = $db->db_connect();
         $sql = "INSERT INTO role (id, role_name)
         VALUES (ADMIN_ID, 'admin')";
-        if ($conn->query($sql) === TRUE) {
-            echo "New record created successfully";
-        } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-        }
+        // prepare and bind
+        $stmt = $conn->prepare("INSERT INTO role(id, role_name) VALUES (?, ?)");
+        $stmt->bind_param("ss", $id, $role_name);
+       
+        // set parameters and execute
+        $id = ADMIN_ID;
+        $role_name='admin';
+        $stmt->execute();
 
+        $id = USER_ID;
+        $role_name='user';
+        $stmt->execute();
+
+
+        unset($db);
+        $stmt->close();
+        $conn->close();
 
     }
 
