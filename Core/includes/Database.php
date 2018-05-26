@@ -89,8 +89,15 @@
             $conn->close();
          }
     
+         /* remove all html tags and characters */
+        public function filter_input_value($str) {
+            $str = trim($str);
+            $str = stripslashes($str);
+            $str = htmlspecialchars($str);
+            return $str;
+        }
 
 
-    }
+    }/*end of Database class */
 
 ?>

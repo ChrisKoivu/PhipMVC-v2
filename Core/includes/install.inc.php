@@ -4,7 +4,10 @@
  
 
       install_db();
-      create_admin_user();
+      if(!admin_exists()){
+        create_admin_user();
+      }
+      insert_admin_role();
     function install_db(){
         $db = New Database();
 
@@ -28,27 +31,62 @@
     }
 
     function create_admin_user(){
-        $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        $db = New Database();
+        $conn = $db->db_connect();
+        
+        // prepare and bind
+        $stmt = $conn->prepare("INSERT INTO users (username, pw, email, role_id) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $username, $pw, $email, $role_id);
+       
+        // set parameters and execute
         $pw = password_hash(DEFAULT_ADMIN_PASSWORD, PASSWORD_DEFAULT);
         $username = DEFAULT_ADMIN_USERNAME;
         $email = DEFAULT_ADMIN_EMAIL;
         $role_id = ADMIN_ID;
 
+        $stmt->execute();
+        unset($db);
+        $stmt->close();
+        $conn->close();
+    }
 
-        $sql = "INSERT INTO users (username, pw, email, role_id)
-        VALUES ('fred','$2y$10$2YhalZ59ndrYjAQSMFxbD./m7DoUtHKk.03f3SnfdmOrbO29JmbCS','mail@mail.com' , 'ahdgf87')";
-
+    function insert_admin_role(){
+        $db = New Database();
+        $conn = $db->db_connect();
+        $sql = "INSERT INTO role (id, role_name)
+        VALUES (ADMIN_ID, 'admin')";
         if ($conn->query($sql) === TRUE) {
             echo "New record created successfully";
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
-        $conn->close();
+
 
     }
 
-    function populate_role_table(){
+    function admin_exists(){
+        $db = New Database();
+        // Prepare a select statement
+        $sql = "SELECT id FROM users WHERE username = ?";        
+        $conn = $db->db_connect();
 
+        if($stmt = $conn->prepare($sql)){
+
+            // Bind variables
+            $stmt->bind_param("s", $pUsername);            
+
+            // Set parameters
+            $pUsername = $db->filter_input_value(trim( DEFAULT_ADMIN_USERNAME));            
+
+            // execute the prepared statement
+            if($stmt->execute()){     
+                $stmt->store_result();               
+                $conn->close();
+                if($stmt->num_rows < 1){
+                    return false;
+                } 
+                return true;
+            }
+        }
     }
-
 ?>
