@@ -32,7 +32,7 @@ class HomeController extends Controller
     }
      
     public function index(){
-           $this->_view->set('greeting', '<div id="welcome"><h1>This is the home page</h1></div>');
+           $this->_view->set('greeting', 'This is the home page');
            return $this->_view->render();
     }
     

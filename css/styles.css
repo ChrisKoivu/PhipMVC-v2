@@ -9,3 +9,14 @@
    
 
 }
+
+.content, .welcome {
+  margin-top:60px;
+  width:80%;
+}
+
+.welcome {
+  margin-left:auto;
+  margin-right:auto;
+  padding: 0px 15px;
+}

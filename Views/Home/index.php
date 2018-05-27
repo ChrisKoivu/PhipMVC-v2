@@ -25,11 +25,11 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
        include($this->header);   
         /* greeting is data that was passed to this view
         from the HomeController index method */
-        Print $greeting;
+        Print PHP_EOL . '<div class="welcome"><h1>' . $greeting . '</h1></div>';
         include HOME . '/templates/content.php';
         include($this->footer); 
         
         
         
-        ?>  
+?>  
        

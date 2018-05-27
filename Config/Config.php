@@ -27,7 +27,7 @@ define ('DB_HOST',  'localhost');
 define ('DB_NAME',  'phipmvc');
 define ('DB_USER',   'root');
 define ('DB_PASS',   'zdrnko114');
-define ('SITE_TITLE', 'PHIP MVC v2');
+
 /* manually provided salt. should be changed for each application for security */
 define ('SALT',  'NULL');
 
@@ -48,18 +48,24 @@ define('ADMIN_ID', 'vs785adMin');
 define('USER_ID', '456tverf');
 
 
-/* this is the folder where your installation resides */ 
+/* this is the folder where your installation resides 
+  this is for convenience in designating included css 
+  and js files see STYLESHEET DIR for example
+*/ 
 define('DEFAULT_WEBSITE_URL', 'http://localhost/phipmvc');
+
+/* this is a setting for convenience */
 define('DEFAULT_HOSTNAME',  'chriskoivu.com');
 
+/* define title for site */
+define ('SITE_TITLE', 'PHIP MVC v2');
 
 /* set the default route in the event of a invalid path */
 define('DEFAULT_PAGE', '/Home/index');
 
 /* set the path to the stylesheets and javascript files */
-define('STYLESHEET_DIR','/phipmvc/css/');
-define('STYLESHEET_DIR','/phipmvc/js/');
-
+define('STYLESHEET_DIR', DEFAULT_WEBSITE_URL . '/css/');
+define('STYLESHEET_DIR', DEFAULT_WEBSITE_URL . '/js/');
 
 /* 
   set debug to 1 for development, 0 for live
