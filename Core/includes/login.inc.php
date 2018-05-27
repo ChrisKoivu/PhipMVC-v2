@@ -21,7 +21,7 @@
         validate_login($username, $password);
 
         function validate_username($username) {
-
+           global $username_err;
           // Check if username is empty
 
           if(empty(trim($_POST["username"]))){
@@ -34,21 +34,31 @@
 
         }
 
+        
+        function get_username_error(){
+            global $username_err;
+            return $username_err;
+        }
+
 
         function validate_password($password) {
-
+           global $password_err;
            // Check if password is empty
 
            if(empty(trim($password))){
              $password_err = 'Please enter your password.';
            } else{
-            $password = trim($_POST['password']);
+            $password = trim($password);
            }
         }
         
+        function get_password_error(){
+            global $password_err;
+            return $password_err;
+        }
 
         function validate_login($username, $password){
-
+        global $password_err, $username_err;
         $conn = db_connect();
         if(empty($username_err) && empty($password_err)){
             $sql = "SELECT username, password FROM users WHERE username = ?";
