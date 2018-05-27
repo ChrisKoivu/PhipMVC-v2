@@ -28,8 +28,12 @@ define ('DB_NAME',  'phipmvc');
 define ('DB_USER',   'root');
 define ('DB_PASS',   'zdrnko114');
 
-/* manually provided salt. should be changed for each application for security */
-define ('SALT',  'NULL');
+/* 
+  manually provided salt for encryption algorithm.
+  should be changed for each application for security
+  salt generated from https://api.wordpress.org/secret-key/1.1/salt/
+*/
+define ('SALT',  'Hpg&&OKyp@glZ6wluJ]0*8+zyG&3Nl~K[;Hycv<-;K%/Y!iQB2*;g}N:;;9-sUI1');
 
 /* 
     This is the settings for the Superuser of the application.
@@ -70,13 +74,7 @@ define('STYLESHEET_DIR', DEFAULT_WEBSITE_URL . '/js/');
 /* 
   set debug to 1 for development, 0 for live
 */
-
 DEFINE ('DEBUG', 1);
-
-
-
-
-
 
 check_config_setup();
 

@@ -3,7 +3,7 @@
 
 // Define variables and initialize with empty values
 $username = $password =$confirm_password= "";
-$username_err = $password_err = $confirm_password_err = ""; 
+$username_err = $password_err = $confirm_password_err = $email_err = ""; 
 
 
 
@@ -13,6 +13,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
    
    $username = validate_username($_POST["username"]);
    $password = validate_password($_POST['password']);
+   $email = validate_email($_POST['email']);
 
    // will return false if password doesnt match
    if(verify_password_match($password, $_POST["confirm_password"])) {
@@ -20,6 +21,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
    }
 
 } /* end of server request method */
+
+
+function get_email_error(){
+    global $email_err;
+    return $email_err;
+}
 
 function get_username_error(){
     global $username_err;
@@ -34,6 +41,19 @@ function get_confirm_password_error(){
 function get_password_error(){
     global $password_err;
     return $password_err;
+}
+
+function validate_email($email){
+    global $email_err;
+   // Remove all illegal characters from email
+   $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+
+    // Validate e-mail
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return $email;
+    } else {
+        $email_err = $email . ' is not a valid email address' ;
+    }
 }
 
 function validate_username($username){
@@ -107,12 +127,12 @@ function verify_password_match($password, $confirm_password) {
     }
 }
 
-function insert_user($username, $password) {
+function insert_user($username, $password, $email) {
      // check for invalid inputs 
-     if(empty(get_username_error()) && empty(get_password_error()) && empty(get_confirm_password_error())){  
+     if(empty(get_username_error()) && empty(get_email_error()) && empty(get_password_error()) && empty(get_confirm_password_error())){  
           $db = New Database();
           // using prepared statement  
-          $sql = "INSERT INTO users (username, password) VALUES (?, ?)"; 
+          $sql = "INSERT INTO users (username, password, email, role_id) VALUES (?, ?, ?, ?)"; 
           $conn = $db->db_connect();
 
           if($stmt = $conn->prepare($sql)){
@@ -142,10 +162,8 @@ function insert_user($username, $password) {
 
 /* remove all html tags and characters */
 function filter_input_value($str) {
-    $str = trim($str);
-    $str = stripslashes($str);
-    $str = htmlspecialchars($str);
-    return $str;
+    $db = New Database();
+    $db->filter_input_value($str);
  }
 
 ?>
