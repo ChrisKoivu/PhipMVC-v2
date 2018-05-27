@@ -1,4 +1,6 @@
-<?php 
+
+ 	
+     <?php 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 Copyright (c) June 28, 2015. Christopher M Koivu.
 
@@ -19,11 +21,12 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTIO
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// */
- 
-    include($this->header);   
-   
-    Components::insert_registration_form('registrations', 'register', 'post', 'Sign Up');
+
+
+
+  include($this->header);   
+  include HOME . '/templates/login.tpl.php';
     
     
-     include($this->footer); 
+  include($this->footer); 
 ?>

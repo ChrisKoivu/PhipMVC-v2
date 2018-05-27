@@ -1,4 +1,7 @@
-<?php 
+
+
+<?php
+ 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 Copyright (c) June 28, 2015. Christopher M Koivu.
 
@@ -19,11 +22,35 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTIO
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// */
- 
-    include($this->header);   
-   
-    Components::insert_registration_form('registrations', 'register', 'post', 'Sign Up');
+
+
+
+class UserController extends Controller
+{    
+    private $_key, $_email;
+    public function __construct($model, $action)
+    {     
+        parent::__construct($model, $action);
+        $this->_setModel($model);      
+    }//end of constructor
+     
+    public function index()
+    {
+        return $this->_view->render();   
+    }   
+
+    public function register(){
+        /* overriding the default header set in the parent class */
+        $this->_view->set_header('header-register.php');
+        /* render the view */
+        return $this->_view->render();
+    }
+
+    public function login(){
+        /* overriding the default header set in the parent class */
+        $this->_view->set_header('header-register.php');
+        /* render the view */
+        return $this->_view->render();
+    }
     
-    
-     include($this->footer); 
-?>
+    } //end of user controller class

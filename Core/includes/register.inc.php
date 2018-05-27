@@ -146,7 +146,9 @@ function insert_user($username, $password, $email) {
         $pw = password_hash($password, PASSWORD_DEFAULT);
         $role_id = USER_ID;
 
-        $stmt->execute();
+        if($stmt->execute()){
+            header("Location: /user/login");
+        }
         unset($db);
         $stmt->close();
         $conn->close();
