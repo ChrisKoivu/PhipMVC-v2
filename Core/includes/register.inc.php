@@ -2,7 +2,7 @@
 
 
 // Define variables and initialize with empty values
-$username = $password =$confirm_password= "";
+$username = $email = $password =$confirm_password= "";
 $username_err = $password_err = $confirm_password_err = $email_err = ""; 
 
 
@@ -11,17 +11,16 @@ $username_err = $password_err = $confirm_password_err = $email_err = "";
 if($_SERVER["REQUEST_METHOD"] == "POST"){ 
    require_once 'Database.php';
    
-   $username = validate_username($_POST["username"]);
+   $username = validate_username($_POST["username"]);   
    $password = validate_password($_POST['password']);
+   $confirm_password = $_POST["confirm_password"];
    $email = validate_email($_POST['email']);
-
+   
    // will return false if password doesnt match
-   if(verify_password_match($password, $_POST["confirm_password"])) {
-       insert_user($username, $password);
+   if(verify_password_match($password, $confirm_password)) {
+       insert_user($username, $password, $email);
    }
-
 } /* end of server request method */
-
 
 function get_email_error(){
     global $email_err;
@@ -44,7 +43,8 @@ function get_password_error(){
 }
 
 function validate_email($email){
-    global $email_err;
+   global $email_err;
+
    // Remove all illegal characters from email
    $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
@@ -57,6 +57,7 @@ function validate_email($email){
 }
 
 function validate_username($username){
+    
     global $username_err;
 
      // Validate username
@@ -71,10 +72,10 @@ function validate_username($username){
         if($stmt = $conn->prepare($sql)){
 
             // Bind variables
-            $stmt->bind_param("s", $pUsername);            
+            $stmt->bind_param("s", $username);            
 
             // Set parameters
-            $pUsername = filter_input_value(trim($username));            
+            $username = filter_input_value(trim($username));            
 
             // execute the prepared statement
             if($stmt->execute()){     
@@ -83,7 +84,7 @@ function validate_username($username){
                 if($stmt->num_rows == 1){
                     $username_err = "This username is already taken.";
                 } else{
-                    return $pUsername;
+                   return $username;
                 }
 
             } else{
@@ -123,47 +124,43 @@ function verify_password_match($password, $confirm_password) {
 
         if($password != $confirm_password){
             $confirm_password_err = 'Password did not match.';
+            return false;
+        }  else {
+            return true;
         }
     }
 }
 
 function insert_user($username, $password, $email) {
+    
      // check for invalid inputs 
      if(empty(get_username_error()) && empty(get_email_error()) && empty(get_password_error()) && empty(get_confirm_password_error())){  
-          $db = New Database();
-          // using prepared statement  
-          $sql = "INSERT INTO users (username, password, email, role_id) VALUES (?, ?, ?, ?)"; 
-          $conn = $db->db_connect();
+        $db = New Database();
+        $conn = $db->db_connect();
+        
+        // prepare and bind
+        $stmt = $conn->prepare("INSERT INTO users (username, pw, email, role_id) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $username, $pw, $email, $role_id);
+       
+        // set parameters and execute
+        $pw = password_hash($password, PASSWORD_DEFAULT);
+        $role_id = USER_ID;
 
-          if($stmt = $conn->prepare($sql)){
-              // Bind variables to the prepared statement as parameters
-              $stmt->bind_param("ss", $pUsername, $pPassword); 
-              // Set parameters
-              $pUsername = $username;
-              // hash password with builtin php hash function 
-              $pPassword = password_hash($password, PASSWORD_DEFAULT);
-              
-              if($stmt->execute()){
-                  // Redirect to login page
-                  header("location: login.php");
-              } else{
-                  echo "Something went wrong. Please try again later.";
-              }
-              
-          } // end of  prepare statement block
-
-          // Close query
-          $stmt->close();
-
+        $stmt->execute();
+        unset($db);
+        $stmt->close();
+        $conn->close();
       } // end of check input block
      
-      $conn->close();
+      
 } //end of insert user function
 
-/* remove all html tags and characters */
-function filter_input_value($str) {
-    $db = New Database();
-    $db->filter_input_value($str);
- }
+ /* remove all html tags and characters */
+ function filter_input_value($str) {
+    $str = trim($str);
+    $str = stripslashes($str);
+    $str = htmlspecialchars($str);
+    return $str;
+  }
 
 ?>
