@@ -34,28 +34,15 @@ class PostsController extends Controller
     }
      
    public function add_post() {
-        $username = Session::get('username');
-        if (isset($_POST['submit']))
-         {
-          if(! $this->_model->add_post($username, $_POST['comment'])){
-            Session::set_error_output('Unable to add post');   
-          } 
-         unset($_POST);
-         Session::redirect('/posts/index');
-         }
-      }
+      
+   }
  
     public function index()
     {
         try {          
-            $posts= $this->_model->getPosts();              
-            $this->_view->set('posts',$posts);
-            //-------------------------------
-            $username = Session::get('username');
-            if (empty($username)){         
-              Session::redirect(DEFAULT_PAGE);    
-            }
-            
+            //$posts= $this->_model->getPosts();              
+            //$this->_view->set('posts',$posts);
+           
             $this->_view->set('title', 'New Posts');
              
             return $this->_view->render();

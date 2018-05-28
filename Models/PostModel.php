@@ -28,79 +28,9 @@ class PostModel extends Model
 {
 
 
-    function __initialize ()
-{
-  $this->create_tables();
-}
 
+   public function __constructor (){
+        
+   }
 
- function create_tables()
- {
-      $sql ="CREATE TABLE IF NOT EXISTS posts "
-        . "(id INT NOT NULL AUTO_INCREMENT, "
-        . "title VARCHAR(50), "
-        . "body TEXT, "
-        . "created datetime, "
-        . "modified datetime, "
-        . "PRIMARY KEY (id))";        
-      $this->_setSql($sql);
-      $this->createTable();
-  }
-
-
-     function add_post($title, $body)
-    {
-       $datetime = $this->get_datetime();
-       $new_post = "INSERT INTO posts (title, body, created, modified) VALUES (?, ?, ?, ?)";
-       $this->_setSql($new_post);
-       $this->add_record(array($title, $body, $datetime, $datetime));
-    }
- 
-    public function getPosts()
-    {
-       
-        $sql = "SELECT
-                    a.id,
-                    a.title,                    
-                    a.body,
-                    a.created,
-                    a.modified
-                FROM
-                    posts a              
-                ORDER BY a.created DESC";
-         
-        $this->_setSql($sql);
-        $posts = $this->fetch_all();
-         
-        if (empty($posts))
-        {
-            return false;
-        }
-         
-        return $posts;
-    }
-     
-    public function getPostById($id)
-    {
-       $sql = "SELECT
-                    a.id,
-                    a.title,                    
-                    a.body,
-                    a.created,
-                    a.modified
-                FROM
-                    posts a            
-                WHERE
-                    a.id = ?";
-         
-        $this->_setSql($sql);
-        $postDetails = $this->fetch_record(array($id));
-         
-        if (empty($postDetails))
-        {
-            return false;
-        }
-         
-        return $postDetails;
-    }
 }
