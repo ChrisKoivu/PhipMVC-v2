@@ -5,25 +5,19 @@
    
 
     // Define variables and initialize with empty values
-
+    $session = NULL;
     $username = $password = "";
-
     $username_err = $password_err = "";
-
-     
-
     // Processing form data when form is submitted
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
-
         $username = validate_username($_POST["username"]);
         $password = validate_password($_POST['password']);
         if (validate_login($username, $password)){
              /* Password is correct, so start a new session and
              save the username to the session */
-             
-            echo $_SESSION['username']. PHP_EOL;
-            echo $_SESSION['role_id'];
+             global $session;
+             $session->redirect('/home/index');
         }
         
         
@@ -69,7 +63,7 @@
 
     
     function validate_login($username, $password){
-    global $password_err, $username_err;
+    global $password_err, $username_err, $session;
     require_once 'Database.php';
     $db = New Database();
     $conn = $db->db_connect();
@@ -85,9 +79,9 @@
                         $stmt->bind_result($username, $hashed_password, $role_id);
                         if($stmt->fetch()){
                             if(password_verify($password, $hashed_password)){ 
-                                session_start();
-                                $_SESSION['username'] = $username;
-                                $_SESSION['role_id'] = $role_id;
+                                $session = New Session();
+                                $session->set_session_value('username', $username);
+                                $session->set_session_value('role_id', $role_id);
                                 return true;   
                             // header("location: welcome.php");
                             } else{
@@ -105,7 +99,7 @@
             
             $stmt->close();
             // Close connection
-            $mysqli->close();    
+            $conn->close();    
         }/* end of entry validation block */
     }/* end of validate login function */
     

@@ -30,7 +30,7 @@ Class Session
 
       public function __construct() { 
           // check for current session
-          if (empty(get_session_id()))
+          if (empty($this->get_session_id()))
           { 
             //create session if non-existent, suppress errors.
             @Session_start();             
@@ -45,14 +45,12 @@ Class Session
             
       public function get_session_value($key){
           if(isset($_SESSION[$key]))
-          return $_SESSION[$key];
+            return $_SESSION[$key];
       }
             
       public function get_session_id(){         
           return session_id();
       }
-            
-            
             
       public function close_session() {             
           // remove all session variables

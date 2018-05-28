@@ -24,22 +24,17 @@ class Controller
     protected $_action;
     protected $_view;
     protected $_modelBaseName;
-    protected $uid;
+    protected $user_role_id;
     
     public function __construct($model, $action)
     {   
-        if (isset($this->uid)){
-           $this->uid = NULL;
-        }else{
-           $this->uid = Session::get('uid');    
-        }
+        
         $this->_controller = ucwords(__CLASS__);
         $this->_action = $action;       
         $this->_modelBaseName = $model;            
         $this->_setView($action);      
         $this->_view->set_header();
-        $this->_view->set_footer();  
-        Session::init();          
+        $this->_view->set_footer();           
     }
      
     protected function _setModel($modelName)
