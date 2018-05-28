@@ -54,7 +54,7 @@
 
             </div>
 
-            <p>Already have an account? <a href="#">Login here</a>.</p>
+            <p>Already have an account? <a href="/user/login">Login here</a>.</p>
 
         </form>
 
