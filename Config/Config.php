@@ -46,10 +46,10 @@ define('DEFAULT_ADMIN_PASSWORD',  'zdrnko114');
 define('DEFAULT_ADMIN_EMAIL',  'admin@admin.com');
 
 /*set the key value that will identify the user access as admin*/
-define('ADMIN_ID', 'vs785adMin');
+define('ADMIN_ROLE_ID', 'vs785adMin');
 
 /*set the key value that will identify the user access as a regular user */
-define('USER_ID', '456tverf');
+define('USER_ROLE_ID', '456tverf');
 
 
 /* this is the folder where your installation resides 

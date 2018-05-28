@@ -43,7 +43,7 @@
         $pw = password_hash(DEFAULT_ADMIN_PASSWORD, PASSWORD_DEFAULT);
         $username = DEFAULT_ADMIN_USERNAME;
         $email = DEFAULT_ADMIN_EMAIL;
-        $role_id = ADMIN_ID;
+        $role_id = ADMIN_ROLE_ID;
 
         $stmt->execute();
         unset($db);
@@ -59,11 +59,11 @@
         $stmt->bind_param("ss", $id, $role_name);
        
         // set parameters and execute
-        $id = ADMIN_ID;
+        $id = ADMIN_ROLE_ID;
         $role_name='admin';
         $stmt->execute();
 
-        $id = USER_ID;
+        $id = USER_ROLE_ID;
         $role_name='user';
         $stmt->execute();
 

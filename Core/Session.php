@@ -28,91 +28,42 @@ Class Session
        
       
 
-        Public static function init() {
+      public function __construct() { 
           // check for current session
-          if (!self::get('session'))
+          if (empty(get_session_id()))
           { 
             //create session if non-existent, suppress errors.
-            @Session_start();
-	    // set flag that session was created
-            self::set('session',TRUE);            
-          }          
-        
+            @Session_start();             
+          }             
         } 
-    
-     public static function set_user_data($username, $uid, $admin=FALSE){        
-        self:: set('username', $username);
-        self::set('uid', $uid);
-        self::set('admin', $admin);
-     }
-
-
-
-public static function clear_user_data( ){
-  self::set('username', NULL);
-  self::set('uid', 0);
-  self::set('admin', FALSE);
-}
-	 Public static function set($key, $value)
-	 {
-	    $_SESSION[$key]=filter_var($value,FILTER_SANITIZE_STRING);                     
-	 }
-         
-	 Public static function get($key){
+        
+        
+      public function set_session_value($key, $value)
+      {
+          $_SESSION[$key]=filter_var($value,FILTER_SANITIZE_STRING);                     
+      }
+            
+      public function get_session_value($key){
           if(isset($_SESSION[$key]))
-	     Return $_SESSION[$key];
-	 }
-         
-         Public static function get_session_id(){         
-	     Return session_id();
-	 }
-         
-   
-         
-    public static function clear_session_output(){
-   if(isset($_SESSION['output']))
-    $_SESSION['output']=NULL;
- }
-
-
- public static function get_session_output(){
-   if(! isset($_SESSION['output']))
-     $_SESSION['output']=NULL;
-   return $_SESSION['output'];
- }
-
-
- Public static function set_session_output($value)
- {
-   $_SESSION['output']=filter_var($value,FILTER_SANITIZE_STRING);                     
- }
- 
- public static function clear_error_output(){
-   if(isset($_SESSION['error']))
-      $_SESSION['error']=NULL;
- }
-
- public static function get_error_output(){
-   if(! isset($_SESSION['error']))
-     $_SESSION['error']=NULL;
-   return $_SESSION['error'];
- }
-
-
- Public static function set_error_output($value)
- {
-   $_SESSION['error']=filter_var($value,FILTER_SANITIZE_STRING);                     
- }
-         
-         
-	 Public static function destroy() {      
-            self::clear_user_data( );
-	    Session_destroy();
-	 }
-	 
-         Public static function redirect($url){           
-            header("Location: " . $url);
-         }
+          return $_SESSION[$key];
+      }
+            
+      public function get_session_id(){         
+          return session_id();
+      }
+            
+            
+            
+      public function close_session() {             
+          // remove all session variables
+          session_unset();
+          // destroy the session
+          session_destroy();
+      }
+      
+      public function redirect($url){           
+          header("Location: " . $url);
+      }
 
 }
 

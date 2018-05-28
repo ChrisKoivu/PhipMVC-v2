@@ -144,7 +144,7 @@ function insert_user($username, $password, $email) {
        
         // set parameters and execute
         $pw = password_hash($password, PASSWORD_DEFAULT);
-        $role_id = USER_ID;
+        $role_id = USER_ROLE_ID;
 
         if($stmt->execute()){
             header("Location: /user/login");
