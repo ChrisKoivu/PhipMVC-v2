@@ -1,7 +1,7 @@
     <?php include HOME . '/Core/includes/login.inc.php'; ?> 
     
     
-<div class="wrapper">
+<div class="form-wrapper">
 
 <h2>Login</h2>
 

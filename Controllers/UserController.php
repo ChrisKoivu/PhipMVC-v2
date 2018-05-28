@@ -52,5 +52,14 @@ class UserController extends Controller
         /* render the view */
         return $this->_view->render();
     }
+
+
+    public function logout(){
+        /* logout of the session */
+        $session = New Session();
+        $session->logout_session();
+        /* render the view */
+        return $this->_view->render();
+    }
     
     } //end of user controller class

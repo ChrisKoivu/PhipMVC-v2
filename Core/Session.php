@@ -52,11 +52,35 @@ Class Session
           return session_id();
       }
             
-      public function close_session() {             
+      public function logout_session() {             
           // remove all session variables
           session_unset();
           // destroy the session
           session_destroy();
+      }
+
+      public function is_admin(){
+         if($this->get_session_value('role_id') === trim(ADMIN_ROLE_ID)){
+           return true;
+         }else{
+           return false;
+         }
+      }
+
+      public function is_user(){
+        if($this->get_session_value('role_id') === trim(USER_ROLE_ID)){
+          return true;
+        }else{
+          return false;
+        }
+      }
+
+      public function is_logged_in(){
+        if($this->is_user()||$this->is_admin()){
+          return true;
+        }else{
+          return false;
+        }
       }
       
       public function redirect($url){           

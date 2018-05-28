@@ -1,6 +1,7 @@
-<!DOCTYPE html>
+
+ 	
      <?php 
-     /* ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 Copyright (c) June 28, 2015. Christopher M Koivu.
 
 
@@ -20,14 +21,20 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTIO
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// */
- 
-       include($this->header);   
-       /* this part is needed if you dont want unauthorized users on
-        * this page  */   
-     
-        
-        
-        include($this->footer);
-        
-        ?>  
-       
+
+
+
+  include($this->header);   
+  
+  
+    $session = New Session();
+    if(!$session->is_logged_in()){
+      print '<div class="content-wrap help-block" style="min-height:250px;">You have successfully logged out of the system</div>';
+
+
+      print '<div class="content-wrap"><a href="/user/login">Return to login page</a></div>';
+    
+    }
+    
+  include($this->footer); 
+?>

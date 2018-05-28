@@ -14,10 +14,9 @@
         $username = validate_username($_POST["username"]);
         $password = validate_password($_POST['password']);
         if (validate_login($username, $password)){
-             /* Password is correct, so start a new session and
-             save the username to the session */
-             global $session;
-             $session->redirect('/home/index');
+             /* Password is correct, so redirect to user page */
+            global $session;
+            $session->redirect('/home/index'); 
         }
         
         
@@ -103,25 +102,4 @@
         }/* end of entry validation block */
     }/* end of validate login function */
     
-    function logout(){
-       // Initialize the session
-      session_start();
- 
-
-      // Unset all of the session variables
-      $_SESSION = array();
-
- 
-
-      // Destroy the session.
-      session_destroy();
-
- 
-
-     // Redirect to login page
-    // header("location: login.php");
-
-     exit;
-  }
-
 ?>

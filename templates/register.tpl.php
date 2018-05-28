@@ -1,6 +1,6 @@
     <?php include HOME . '/Core/includes/register.inc.php'; ?> 
     
-    <div class="wrapper">
+    <div class="form-wrapper">
         <h2>Sign Up</h2>
         
         <p>Please fill this form to create an account.</p>
