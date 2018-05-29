@@ -1,6 +1,6 @@
 
-
-<?php
+ 	
+     <?php 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 Copyright (c) June 28, 2015. Christopher M Koivu.
 
@@ -21,44 +21,12 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTIO
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// */
- 
 
 
-class PostsController extends Controller
-{
-    public function __construct($model, $action)
-    {        
-        parent::__construct($model, $action);            
-        $this->_setModel(trim($model, 's'));
-        
-    }
-     
-   public function add_post() {
-    try {          
-        //$posts= $this->_model->getPosts();              
-        //$this->_view->set('posts',$posts);
-       
-        $this->_view->set('title', 'Add Post');
-         
-        return $this->_view->render();
-         
-    } catch (Exception $e) {
-        echo "Application error:" . $e->getMessage();
-    }
-   }
- 
-    public function index()
-    {
-        try {          
-            //$posts= $this->_model->getPosts();              
-            //$this->_view->set('posts',$posts);
-           
-            $this->_view->set('title', 'New Posts');
-             
-            return $this->_view->render();
-             
-        } catch (Exception $e) {
-            echo "Application error:" . $e->getMessage();
-        }
-    }
-}
+
+  include($this->header);   
+  include HOME . '/templates/post-form.tpl.php';
+    
+    
+  include($this->footer); 
+?>

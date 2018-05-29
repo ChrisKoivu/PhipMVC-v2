@@ -43,18 +43,18 @@
               </li>
         </ul>
       </div>
-      <div class = "navbar-right"><a href="
+      
       <?php 
          $session = New Session();
          if($session->is_logged_in()){
            $link_text = "Logout";
-           echo "/user/logout";
+           $link = "/user/logout";
          }else{
           $link_text = "Login";
-           echo "/user/login";
+          $link = "/user/login";
          }
       ?>
-      " class="nav-link"><?php echo $link_text; ?> </a>
+       <div class = "navbar-right"><a href="<?php echo $link; ?>" class="nav-link"><?php echo $link_text; ?> </a>
       </div>
     </nav>
   </div>
