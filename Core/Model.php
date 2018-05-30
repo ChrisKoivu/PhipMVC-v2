@@ -23,124 +23,32 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class Model
 {
-    protected $_db;
-    protected $_sql;
-    protected $num_rows;
-   
     
-    public function __construct()
-    {
-       /* $this->_db = Database::init();   */
-       
-    }
-     
-     protected function _setSql($sql)
-     {
-         $this->_sql = $sql;
-     }
-     
-      public function create_table(){
-      try {
-          if (!$this->_sql)
-          {
-            throw new Exception("No SQL query!");
-          }   
-          $conn = $this->_db->prepare($this->_sql);
-          $conn->execute();                
-      } catch (Exception $ex) {
-          echo $this->_sql . "<br>" . $ex->getMessage();
-      }        
-    }
+    protected $conn = NULL;
+    protected $db = NULL;
     
-       public function add_record($data = null){
-       if (!$this->_sql)
-        {
-            throw new Exception("No SQL query!");
-        }        
-        $conn = $this->_db->prepare($this->_sql);
-        $conn->execute($data);        
-        $last_id = $this->_db->lastInsertId();
-        return $last_id;
-    }
-   
-    public function fetch_all($data = null)
+    protected function __construct()
     {
-        if (!$this->_sql)
-        {
-            throw new Exception("No SQL query!");
-        }
-         
-        $conn = $this->_db->prepare($this->_sql);
-        $conn->execute($data);
-        return $conn->fetchAll();
-    }
-     
-    public function fetch_record($data = null)
-    {
-        if (!$this->_sql)
-        {
-            throw new Exception("No SQL query!");
-        }
-         
-        $conn = $this->_db->prepare($this->_sql);
-        $conn->execute($data);        
-        $this->num_rows = $conn->rowCount();
-        return $conn->fetch();
+        require_once HOME . '/Core/includes/Database.php';
+        $this->db = New Database();
+        $this->conn = $this->db->db_connect();
     }
 
-   
-   public function update_record($data=NULL){  
-      try{
-        if (!$this->_sql)
-        {
-            throw new Exception("No SQL query!");
-        }
-         
-          $conn = $this->_db->prepare($this->_sql);
-          $conn->execute($data);
-          $this->num_rows=$conn->rowCount();
-      
-        if ($this->num_rows > 0 ){
-          return TRUE;
-        }else {
-          return FALSE;
-        }
-      }catch(Exception $ex){
-           echo $this->_sql . "<br>" . $ex->getMessage();
-      }
-   } 
+    protected function select_all_records($table){
 
-   public function delete_record($table, $query_field, $query_value){
-     $sql = "DELETE FROM " . $table . " WHERE " . $query_field . "='" . $query_value . "'";
-     $conn = $this->_db->prepare($sql);
-     $conn->execute();  
-   }
-   
-   protected function parse_url_query($string) {
-        if (! empty($string)) {
-          parse_str($string, $array);
-          return $array;          
-        }
-    }
-    
-    protected function get_datetime() {
-       $objDateTime = new DateTime('NOW');
-       $date_time = $objDateTime->format('Y-m-d H:i:s');      
-       //$phpdate = strtotime($date_time);
-       return $date_time;
-       //return $phpdate;
     }
 
-     protected function is_admin($uid)    
-    {   
-        $query = "SELECT user_id FROM users_in_roles UIR INNER JOIN roles R on 
-        UIR.role_id = R.id WHERE R.name = 'admin' AND UIR.user_id = ? LIMIT 1";   
-        $this->_setSql($query); 
-        $this->fetch_record(array($uid));
-         if ($this->num_rows > 0 )          
-            return TRUE;
-         return FALSE;
-    } 
-}
+    protected function delete_record($id){
+
+    }
+
+    protected function select_record($id){
+
+    }
+     
+     
+} // end of Model class
+
+?>
 
 
