@@ -24,12 +24,12 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  
 
 
-class PostsController extends Controller
+class PostController extends Controller
 {
     public function __construct($model, $action)
     {        
         parent::__construct($model, $action);            
-        $this->_setModel(trim($model, 's'));
+        $this->_setModel(trim($model));
         
     }
      

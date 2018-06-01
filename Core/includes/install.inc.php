@@ -12,15 +12,15 @@
     function install_db(){
         $db = New Database();
 
-        $sql_users = "
-        CREATE TABLE IF NOT EXISTS users (
+        $sql_user = "
+        CREATE TABLE IF NOT EXISTS user (
             id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
             username varchar(128) NOT NULL,
             pw TEXT NOT NULL,
             email varchar(128) DEFAULT NULL,
             role_id varchar(128) NOT NULL
         )";
-        $db->create_table($sql_users);
+        $db->create_table($sql_user);
 
         $sql_role = "
         CREATE TABLE IF NOT EXISTS role (
@@ -36,7 +36,7 @@
         $conn = $db->db_connect();
         
         // prepare and bind
-        $stmt = $conn->prepare("INSERT INTO users (username, pw, email, role_id) VALUES (?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO user (username, pw, email, role_id) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $username, $pw, $email, $role_id);
        
         // set parameters and execute
@@ -77,7 +77,7 @@
     function admin_exists(){
         $db = New Database();
         // Prepare a select statement
-        $sql = "SELECT id FROM users WHERE username = ?";        
+        $sql = "SELECT id FROM user WHERE username = ?";        
         $conn = $db->db_connect();
 
         if($stmt = $conn->prepare($sql)){

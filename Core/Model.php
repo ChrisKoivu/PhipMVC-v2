@@ -21,15 +21,17 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-class Model
+require_once HOME . '/Core/includes/Database.php';
+
+class Model extends Database
 {
     
     protected $conn = NULL;
     protected $db = NULL;
     
-    protected function __construct()
+    public function __construct()
     {
-        require_once HOME . '/Core/includes/Database.php';
+        parent::__construct();
         $this->db = New Database();
         $this->conn = $this->db->db_connect();
     }

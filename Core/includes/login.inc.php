@@ -68,7 +68,7 @@
     $conn = $db->db_connect();
         if(empty($username_err) && empty($password_err)){
             // prepare and bind
-            $stmt = $conn->prepare("SELECT username, pw, role_id FROM users WHERE username = ?");
+            $stmt = $conn->prepare("SELECT username, pw, role_id FROM user WHERE username = ?");
             $stmt->bind_param("s", $username);
                 if($stmt->execute()){
                     $stmt->store_result();                  

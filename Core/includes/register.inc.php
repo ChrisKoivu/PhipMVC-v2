@@ -66,7 +66,7 @@ function validate_username($username){
     } else{
         $db = New Database();
         // Prepare a select statement
-        $sql = "SELECT id FROM users WHERE username = ?";        
+        $sql = "SELECT id FROM user WHERE username = ?";        
         $conn = $db->db_connect();
 
         if($stmt = $conn->prepare($sql)){
@@ -139,7 +139,7 @@ function insert_user($username, $password, $email) {
         $conn = $db->db_connect();
         
         // prepare and bind
-        $stmt = $conn->prepare("INSERT INTO users (username, pw, email, role_id) VALUES (?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO user (username, pw, email, role_id) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $username, $pw, $email, $role_id);
        
         // set parameters and execute

@@ -26,7 +26,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         /* greeting is data that was passed to this view
         from the HomeController index method */
         Print PHP_EOL . '<div class="welcome"><h1>' . $greeting . '</h1></div>';
-        include HOME . '/templates/content.php';
+        include HOME . '/templates/content.tpl.php';
         include($this->footer); 
         
         
