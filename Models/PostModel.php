@@ -26,23 +26,53 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class PostModel extends Model
 {
-
-
-
    public function __construct (){
       parent::__construct();
+      if(!$this->model_table_exists()){
+        $this->create_post_table();    
+      }
+      
    }
    
+
+   /* create post method */
    public function add(){
 
    }
+
+   /* read post method */
+   public function read($id="ALL"){
+       if ($id = "ALL"){
+         // get all posts
+         $this->select_all_records();
+       }else{
+         // get selected post
+         $this->select_record($id);
+       }
+   }
+
+   /* update post method */ 
 
    public function edit(){
 
    }
 
+   /* delete post method */
    public function delete (){
 
+   }
+
+   private function create_post_table(){
+    $db = New Database();
+
+    $sql_post_table = "
+      CREATE TABLE IF NOT EXISTS post(
+          id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+          title varchar(128) NOT NULL,
+          body TEXT NOT NULL
+      )
+    ";
+    $this->create_model_table($sql_post_table);
    }
    
 }

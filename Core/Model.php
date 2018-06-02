@@ -26,26 +26,43 @@ require_once HOME . '/Core/includes/Database.php';
 class Model extends Database
 {
     
-    protected $conn = NULL;
-    protected $db = NULL;
-    
+    protected $table;
+
     public function __construct()
     {
         parent::__construct();
-        $this->db = New Database();
-        $this->conn = $this->db->db_connect();
+        $this->table = trim(strtolower(trim(get_class($this))),'model');
     }
 
-    protected function select_all_records($table){
-
+    protected function create_model_table($sql){
+        $db = New Database();
+        $db->create_table($sql);
     }
 
+    protected function select_all_records(){
+        $sql = "SELECT * FROM " . $this->table;
+        $result = $conn->query($sql);
+        
+        if ($result->num_rows > 0) {
+            // output data of each row
+           return $result;
+        } else {
+            echo "there are no entries yet";
+        }
+        $conn->close();       
+    }
+ 
     protected function delete_record($id){
 
     }
 
     protected function select_record($id){
 
+    }
+
+    protected function model_table_exists(){
+      $db = New Database();
+      return $db->table_exists($this->table);
     }
      
      

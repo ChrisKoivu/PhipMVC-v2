@@ -25,11 +25,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
   include($this->header);   
-    //start_view_block($tagName, $id=NULL, $class=NULL, $style=NULL)
-   
-    Components::insert_login_form('users', 'login', 'post', 'Log In');
     
-    
-    
-     include($this->footer); 
+  include HOME . '/templates/content.tpl.php';
+  include($this->footer); 
 ?>
