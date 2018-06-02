@@ -40,14 +40,19 @@ class Model extends Database
     }
 
     protected function select_all_records(){
+        $db = New Database();
+        $conn = $db->db_connect();
+        $data = array();
         $sql = "SELECT * FROM " . $this->table;
         $result = $conn->query($sql);
-        
         if ($result->num_rows > 0) {
-            // output data of each row
-           return $result;
+            // save query results to associative array
+            while($row = $result->fetch_assoc()) {
+              $data[]=$row;
+            }
+           return $data;
         } else {
-            echo "there are no entries yet";
+           return false;
         }
         $conn->close();       
     }

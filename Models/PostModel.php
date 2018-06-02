@@ -41,13 +41,13 @@ class PostModel extends Model
    }
 
    /* read post method */
-   public function read($id="ALL"){
+   public function read_post($id="ALL"){
        if ($id = "ALL"){
-         // get all posts
-         $this->select_all_records();
+         // get all posts by default
+         return $this->select_all_records();
        }else{
          // get selected post
-         $this->select_record($id);
+          return $this->select_record($id);
        }
    }
 
@@ -69,7 +69,8 @@ class PostModel extends Model
       CREATE TABLE IF NOT EXISTS post(
           id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
           title varchar(128) NOT NULL,
-          body TEXT NOT NULL
+          body TEXT NOT NULL,
+          post_link varchar(128) NOT NULL
       )
     ";
     $this->create_model_table($sql_post_table);

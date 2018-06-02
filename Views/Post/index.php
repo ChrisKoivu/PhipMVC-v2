@@ -23,9 +23,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// */
  
       include($this->header);
-      
-      include HOME . '/templates/posts.tpl.php';
-            
+       print '<div class="welcome"><h1>' . $title . '</h1></div>';
+       include HOME . '/templates/posts.tpl.php';
        include($this->footer); 
        
        ?>  
