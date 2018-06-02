@@ -36,8 +36,27 @@ class PostModel extends Model
    
 
    /* create post method */
-   public function add(){
+   public function add($title, $body){
+      $db = New Database();
+      $conn = $db->db_connect();
+      
+      // prepare and bind
+      $stmt = $conn->prepare("INSERT INTO post (title, body, post_link) VALUES (?, ?, ?)");
+      $stmt->bind_param("sss", $title, $body, $post_link);
+     
+      // set parameters and execute 
+      $title = filter_input_value($title);
+      $body = filter_input_value($body);
+      $post_link = create_post_link($title);
 
+      if($stmt->execute()){
+          //header("Location: /user/login");
+      }
+
+      unset($db);
+      $stmt->close();
+      $conn->close();
+     
    }
 
    /* read post method */
@@ -60,6 +79,22 @@ class PostModel extends Model
    /* delete post method */
    public function delete (){
 
+   }
+
+   private function get_post_id($post_link){
+      $db = New Database();
+      $conn = $db->db_connect();
+      
+      // prepare and bind
+      $stmt = $conn->prepare("SELECT id FROM post WHERE post_link = ?");
+      $stmt->bind_param("s", $post_link);
+    
+   }
+
+   private function create_post_link($post_title){
+     $post_link = trim(strtolower($post_title));
+     $post_link = 'index/' . str_replace(' ', '_', $post_link);
+     return $post_link;
    }
 
    private function create_post_table(){
