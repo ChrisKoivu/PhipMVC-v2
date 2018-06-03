@@ -1,4 +1,4 @@
-    <?php include HOME . '/Core/includes/login.inc.php'; ?> 
+<?php include HOME . '/Core/includes/post.inc.php'; ?> 
     
     
 <div class="form-wrapper">
@@ -8,19 +8,18 @@
 <p>Please complete this form</p>
 
 <form action="" method="post">
-
     <div class="form-group"> 
-        <label for="exampleFormControlInput1">Email address</label> 
+        <label>Title</label> 
         <input type="text" class="form-control" id="post-title" placeholder="Title of your post"> 
      </div>
      
      <div class="form-group">  
-        <label for="exampleFormControlTextarea1">Example textarea</label> 
+        <label>Post Body</label>
         <textarea class="form-control" id="post-body" rows="10">
         </textarea> 
      </div>
      <div class="form-group">
-        <input type="submit" class="btn btn-primary" value="Submit">
+        <input type="submit" class="btn btn-primary" value="submit">
      </div>
  </form>
         

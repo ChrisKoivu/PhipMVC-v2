@@ -36,23 +36,23 @@ class PostModel extends Model
    
 
    /* create post method */
-   public function add($title, $body){
+   public function add_post($title, $body){
       $db = New Database();
       $conn = $db->db_connect();
       
-      // prepare and bind
-      $stmt = $conn->prepare("INSERT INTO post (title, body, post_link) VALUES (?, ?, ?)");
-      $stmt->bind_param("sss", $title, $body, $post_link);
-     
-      // set parameters and execute 
-      $title = filter_input_value($title);
-      $body = filter_input_value($body);
-      $post_link = create_post_link($title);
-
-      if($stmt->execute()){
-          //header("Location: /user/login");
+      if(!$this->is_duplicate_post($title)){
+        // prepare and bind
+        $stmt = $conn->prepare("INSERT INTO post (title, body, post_link) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $title, $body, $post_link);
+      
+        // set parameters and execute 
+        $title = $db->filter_input_value($title);
+        $body = $db->filter_input_value($body);
+        $post_link = create_post_link($title);     
+        $stmt->execute();
+      }else{
+        print '<div class = "help-block"> a post with this title already exists</div>';
       }
-
       unset($db);
       $stmt->close();
       $conn->close();
@@ -72,29 +72,13 @@ class PostModel extends Model
 
    /* update post method */ 
 
-   public function edit(){
+   public function edit_post(){
 
    }
 
    /* delete post method */
-   public function delete (){
+   public function delete_post (){
 
-   }
-
-   private function get_post_id($post_link){
-      $db = New Database();
-      $conn = $db->db_connect();
-      
-      // prepare and bind
-      $stmt = $conn->prepare("SELECT id FROM post WHERE post_link = ?");
-      $stmt->bind_param("s", $post_link);
-    
-   }
-
-   private function create_post_link($post_title){
-     $post_link = trim(strtolower($post_title));
-     $post_link = 'index/' . str_replace(' ', '_', $post_link);
-     return $post_link;
    }
 
    private function create_post_table(){
@@ -110,5 +94,49 @@ class PostModel extends Model
     ";
     $this->create_model_table($sql_post_table);
    }
+
+   private function create_post_link($post_title){
+      $post_link = trim(strtolower($post_title));
+      $post_link = 'index/' . str_replace(' ', '_', $post_link);
+      return $post_link;
+   }
+
+   private function get_post_id($post_link){
+      $db = New Database();
+      $conn = $db->db_connect();
+      
+      // prepare and bind
+      $stmt = $conn->prepare("SELECT id FROM post WHERE post_link = ? LIMIT 1");
+      $stmt->bind_param("s", $post_link);  
+      if($stmt->execute()){
+        $stmt->store_result();    
+        if($stmt->num_rows == 1){
+          $stmt->bind_result($id);
+          if($stmt->fetch()){
+            $result = $id;
+          }
+        }else{
+          // no records, so returning -1
+          $result = -1;
+        }
+      }
+      
+      $stmt->close();
+      $db->close();
+      unset($db);
+      return $result;
+   }
+
+
+   private function is_duplicate_post($post_title){
+      $link = $this->create_post_link($post_title);
+      if($this->get_post_id($link) < 0 ){
+        return false;
+      } else {
+        return true;
+      }
+   }
+
+
    
 }
