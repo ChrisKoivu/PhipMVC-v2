@@ -34,14 +34,17 @@ class PostController extends Controller
     }
      
    public function add_post() {
-    try {          
-        //$posts= $this->_model->getPosts();              
-        //$this->_view->set('posts',$posts);
-       
-        $this->_view->set('title', 'Add Post');
-         
+    try {     
+        if (isset($_POST['post_title'])) {
+           $title = $_POST['post_title'];
+           $body = $_POST['post_body'];
+
+           if(!empty($title) && !empty($body)){
+             $this->_model->add_post($title, $body);
+           }
+        }
+        
         return $this->_view->render();
-         
     } catch (Exception $e) {
         echo "Application error:" . $e->getMessage();
     }
@@ -52,7 +55,7 @@ class PostController extends Controller
         try {          
             $posts= $this->_model->read_post();              
             $this->_view->set('posts',$posts);        
-            $this->_view->set('title', 'New Posts');           
+                       
             return $this->_view->render(); 
         } catch (Exception $e) {
             echo "Application error:" . $e->getMessage();

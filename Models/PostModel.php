@@ -1,28 +1,7 @@
 
  	
 <?php
- /* ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-Copyright (c) June 28, 2015. Christopher M Koivu.
-
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of 
-this software and associated documentation files (the "Software"), the rights to 
-use, copy, modify, merge, publish, or distribute copies of the Software, and to 
-permit persons to whom the Software is furnished to do so, subject to the 
-following conditions:
-
-The above copyright notice and this permission notice shall be included in all 
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
-PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-////////////////////////////////////////////////////////////////////////////////////////////////////////// */
  
-
 
 class PostModel extends Model
 {
@@ -40,21 +19,23 @@ class PostModel extends Model
       $db = New Database();
       $conn = $db->db_connect();
       
-      if(!$this->is_duplicate_post($title)){
-        // prepare and bind
-        $stmt = $conn->prepare("INSERT INTO post (title, body, post_link) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $title, $body, $post_link);
-      
-        // set parameters and execute 
-        $title = $db->filter_input_value($title);
-        $body = $db->filter_input_value($body);
-        $post_link = create_post_link($title);     
-        $stmt->execute();
-      }else{
-        print '<div class = "help-block"> a post with this title already exists</div>';
-      }
+      if (!empty($title)&&!empty($body)){
+          if(!$this->is_duplicate_post($title)){
+            // prepare and bind
+            $stmt = $conn->prepare("INSERT INTO post (title, body, post_link) VALUES (?, ?, ?)");
+            $stmt->bind_param("sss", $title, $body, $post_link);
+          
+            // set parameters and execute 
+            $title = $db->filter_input_value($title);
+            $body = $db->filter_input_value($body);
+            $post_link = $this->create_post_link($title);     
+            $stmt->execute();
+            $stmt->close();
+          }else{
+            print '<div class = "error-panel"> A post with this title already exists</div>';
+          } // end of is duplicate post block
+      } // end of not empty block 
       unset($db);
-      $stmt->close();
       $conn->close();
      
    }
@@ -97,7 +78,7 @@ class PostModel extends Model
 
    private function create_post_link($post_title){
       $post_link = trim(strtolower($post_title));
-      $post_link = 'index/' . str_replace(' ', '_', $post_link);
+      $post_link = '/post/index/' . str_replace(' ', '_', $post_link);
       return $post_link;
    }
 
@@ -122,7 +103,6 @@ class PostModel extends Model
       }
       
       $stmt->close();
-      $db->close();
       unset($db);
       return $result;
    }
