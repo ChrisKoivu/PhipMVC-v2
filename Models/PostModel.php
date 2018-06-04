@@ -83,25 +83,22 @@ class PostModel extends Model
 }
 
    /* delete post method */
-   public function delete_post($id){
-   if (filter_var($id, FILTER_VALIDATE_INT)) {
+   public function delete_post($slug){   
       $db = New Database();
     
       $conn = $db->db_connect();
+      $post_link = '/post/index/ . $slug;
    
-      $sql = "DELETE FROM " . $this->table . " WHERE id = ?";
+      $sql = "DELETE FROM " . $this->table . " WHERE post_link = ?";
       if($stmt = $conn->prepare($sql)){
          // bind variables
-         $stmt->bind_param("i", $id);
+         $stmt->bind_param("s", $post_link);
          // execute query
          $stmt->execute();
          $stmt->close();
       }   
       $conn->close();
-      unset($db);
-    }else{
-       echo("Primary key is invalid");
-    }
+      unset($db);    
 }
 
 
