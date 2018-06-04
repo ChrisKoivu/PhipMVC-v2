@@ -41,13 +41,13 @@ class PostModel extends Model
    }
 
    /* read post method */
-   public function read_post($id="ALL"){
-       if ($id = "ALL"){
+   public function read_post($slug=""){
+       if ($slug = ""){
          // get all posts by default
          return $this->select_all_records();
        }else{
          // get selected post
-          return $this->select_record($id);
+          return $this->get_post($slug);
        }
    }
 
@@ -83,14 +83,14 @@ class PostModel extends Model
    }
 
 
-   public function get_post($post_link_slug){
+   public function get_post($slug){
 
   
    $db = New Database();
     
    $conn = $db->db_connect();
 
-   $post_link = '/post/index/' . $post_link_slug;
+   $post_link = '/post/index/' . $slug;
    $data = array();
 
 
