@@ -66,7 +66,7 @@
           }
          
          /* remove all html tags and characters */
-          function filter_input_value($str) {
+         public function filter_input_value($str) {
             $str = trim($str);
             $str = stripslashes($str);
             $str = htmlspecialchars($str);
