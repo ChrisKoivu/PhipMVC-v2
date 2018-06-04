@@ -55,14 +55,56 @@ class PostModel extends Model
 
    /* update post method */ 
 
-   public function edit_post(){
+   public function edit_post($title, body, $id){
+   if (filter_var($id, FILTER_VALIDATE_INT)) {
+      $db = New Database();
+    
+      $conn = $db->db_connect();
+   
+      $sql = "UPDATE " . $this->table . " SET title = ? SET body = ? SET post_link = ? WHERE id = ?";
+       if($stmt = $conn->prepare($sql)){
+           // Bind variables
+           $stmt->bind_param("sssi", $title, $body, $post_link, $id); 
 
-   }
+           // set values
+           $post_link = $this->create_post_link($db->filter_input_value($title));
+           $body = $db->filter_input_value($body);
+           $title = $db->filter_input_value($title);
+
+           // execute query
+           $stmt->execute();
+           $stmt->close();
+       }
+       $conn->close();
+       unset($db);
+   } else {
+      echo("Primary key is invalid");
+   }   
+}
 
    /* delete post method */
-   public function delete_post (){
+   public function delete_post($id){
+   if (filter_var($id, FILTER_VALIDATE_INT)) {
+      $db = New Database();
+    
+      $conn = $db->db_connect();
+   
+      $sql = "DELETE FROM " . $this->table . " WHERE id = ?";
+      if($stmt = $conn->prepare($sql)){
+         // bind variables
+         $stmt->bind_param("i", $id);
+         // execute query
+         $stmt->execute();
+         $stmt->close();
+      }   
+      $conn->close();
+      unset($db);
+    }else{
+       echo("Primary key is invalid");
+    }
+}
 
-   }
+
 
    private function create_post_table(){
     $db = New Database();
