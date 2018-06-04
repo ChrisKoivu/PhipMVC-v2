@@ -63,7 +63,40 @@ class Model
 
     protected function select_record($id){
 
-    }
+  
+   $db = New Database();
+    
+   $conn = $db->db_connect();
+   $data = array();
+
+
+   $sql = "SELECT * FROM " . $this->table . " WHERE id = ?";
+
+   if($stmt = $conn->prepare($sql)){
+
+      // Bind variables
+      $stmt->bind_param("i", $id); 
+
+      // if $id is not an integer dont run query
+      if (filter_var($id, FILTER_VALIDATE_INT)) {
+         // execute the prepared statement
+         if($stmt->execute()){     
+           // fetch the rows and save to data array
+           $result = $stmt->get_result();
+           while ($data = $result->fetch_assoc())
+           {
+             $data[] = $data;
+           }
+
+         } 
+         $stmt->close();
+       }
+   }    
+
+   $conn->close();
+   // returns assoc array with query results or an empty array
+   return $data;
+}
 
     protected function model_table_exists(){
       $db = New Database();
