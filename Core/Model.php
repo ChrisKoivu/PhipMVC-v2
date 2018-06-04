@@ -23,7 +23,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require_once HOME . '/Core/includes/Database.php';
 
-class Model extends Database
+class Model 
 {
     
     protected $table;
