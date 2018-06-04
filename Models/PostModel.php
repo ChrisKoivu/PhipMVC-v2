@@ -55,8 +55,14 @@ class PostModel extends Model
 
    /* update post method */ 
 
-   public function edit_post($title, body, $id){
-   if (filter_var($id, FILTER_VALIDATE_INT)) {
+  public function edit_post($title, body, $slug){
+   /* get link to post being edited */
+   $post_link = '/post/index/' . $slug;
+
+   /* get current $id for this post as post_link may change */
+   $id = $this->get_post_id($post_link);
+
+   if (filter_var($id, FILTER_VALIDATE_INT) === 0 || filter_var($int, FILTER_VALIDATE_INT) ) {
       $db = New Database();
     
       $conn = $db->db_connect();
@@ -81,6 +87,7 @@ class PostModel extends Model
       echo("Primary key is invalid");
    }   
 }
+
 
    /* delete post method */
    public function delete_post($slug){   
