@@ -49,11 +49,15 @@ class PostController extends Controller
         echo "Application error:" . $e->getMessage();
     }
    }
- 
-    public function index()
+
+
+    // this method displays all of our posts
+    // if $query empty, all posts displayed
+    // if query has slug name, that post is shown
+    public function index($query)
     {
         try {          
-            $posts= $this->_model->read_post();              
+            $posts= $this->_model->read_post($query);              
             $this->_view->set('posts',$posts);        
                        
             return $this->_view->render(); 

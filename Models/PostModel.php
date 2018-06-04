@@ -42,11 +42,13 @@ class PostModel extends Model
 
    /* read post method */
    public function read_post($slug=""){
-       if ($slug = ""){
+     
+       if (empty($slug)){
          // get all posts by default
          return $this->select_all_records();
        }else{
          // get selected post
+         
           return $this->get_post($slug);
        }
    }
@@ -84,43 +86,39 @@ class PostModel extends Model
 
 
    public function get_post($slug){
-
-  
-   $db = New Database();
-    
-   $conn = $db->db_connect();
-
-   $post_link = '/post/index/' . $slug;
-   $data = array();
-
-
-   $sql = "SELECT * FROM " . $this->table . " WHERE post_link = ?";
-
-   if($stmt = $conn->prepare($sql)){
-
-      // Bind variables
-      $stmt->bind_param("s", $post_link); 
-      $post_link = $db->filter_input_value($post_link);
-
-       
+      
+      $db = New Database();
+      $conn = $db->db_connect();
+      $post_link = '/post/index/' . $slug;
+      $data = array();
+      $sql = "SELECT * FROM " . $this->table . " WHERE post_link = ?";
+      
+      if($stmt = $conn->prepare($sql)){
+        
+          // Bind variables
+          $stmt->bind_param("s", $post_link); 
+          $post_link = $db->filter_input_value($post_link);
+   
           // execute the prepared statement
-      if($stmt->execute()){     
-         // fetch the rows and save to data array
-         $result = $stmt->get_result();
-         while ($data = $result->fetch_assoc())
-         {
-           $data[] = $data;
-         }
+          if($stmt->execute()){     
+            
+            // fetch the rows and save to data array
+            $result = $stmt->get_result();
+            while ($row = $result->fetch_assoc())
+            {
+              $data[] = $row;
+            }
 
-      } 
-      $stmt->close();
-   }    
+          } 
+          $stmt->close();
+     }    
 
-   $conn->close();
+      $conn->close();
+      // returns assoc array with query results or an empty array
+      return $data;
+  } 
 
-   // returns assoc array with query results or an empty array
-   return $data;
-}
+   // retrieve post id from post table
    private function get_post_id($post_link){
       $db = New Database();
       $conn = $db->db_connect();
@@ -146,7 +144,7 @@ class PostModel extends Model
       return $result;
    }
 
-
+   // verifies post is unique 
    private function is_duplicate_post($post_title){
       $link = $this->create_post_link($post_title);
       if($this->get_post_id($link) < 0 ){
