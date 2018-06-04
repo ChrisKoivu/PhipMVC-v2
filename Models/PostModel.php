@@ -82,6 +82,45 @@ class PostModel extends Model
       return $post_link;
    }
 
+
+   public function get_post($post_link_slug){
+
+  
+   $db = New Database();
+    
+   $conn = $db->db_connect();
+
+   $post_link = '/post/index/' . $post_link_slug;
+   $data = array();
+
+
+   $sql = "SELECT * FROM " . $this->table . " WHERE post_link = ?";
+
+   if($stmt = $conn->prepare($sql)){
+
+      // Bind variables
+      $stmt->bind_param("s", $post_link); 
+      $post_link = $db->filter_input_value($post_link);
+
+       
+          // execute the prepared statement
+      if($stmt->execute()){     
+         // fetch the rows and save to data array
+         $result = $stmt->get_result();
+         while ($data = $result->fetch_assoc())
+         {
+           $data[] = $data;
+         }
+
+      } 
+      $stmt->close();
+   }    
+
+   $conn->close();
+
+   // returns assoc array with query results or an empty array
+   return $data;
+}
    private function get_post_id($post_link){
       $db = New Database();
       $conn = $db->db_connect();
