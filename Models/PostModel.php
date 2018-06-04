@@ -87,7 +87,7 @@ class PostModel extends Model
       $db = New Database();
     
       $conn = $db->db_connect();
-      $post_link = '/post/index/ . $slug;
+      $post_link = '/post/index/' . $slug;
    
       $sql = "DELETE FROM " . $this->table . " WHERE post_link = ?";
       if($stmt = $conn->prepare($sql)){
