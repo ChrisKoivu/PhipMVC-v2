@@ -83,9 +83,9 @@ class Model
          if($stmt->execute()){     
            // fetch the rows and save to data array
            $result = $stmt->get_result();
-           while ($data = $result->fetch_assoc())
+           while ($row = $result->fetch_assoc())
            {
-             $data[] = $data;
+             $data[] = $row;
            }
 
          } 
