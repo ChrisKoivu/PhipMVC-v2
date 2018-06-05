@@ -137,7 +137,7 @@ public function read_all_posts(){
       $conn = $db->db_connect();
       $post_link = $slug;
       $data = array();
-      $sql = "SELECT * FROM " . $this->table . " WHERE post_link = ?";
+      $sql = "SELECT * FROM " . $this->table . " WHERE post_link = ? LIMIT 1";
       
       if($stmt = $conn->prepare($sql)){
         
