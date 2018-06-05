@@ -18,9 +18,7 @@ class PostModel extends Model
    public function add_post($title, $body){
       $db = New Database();
       $conn = $db->db_connect();
-      
-      if (!empty($title)&&!empty($body)){
-          if(!$this->is_duplicate_post($title)){
+      if(!$this->is_duplicate_post($title)){
             // prepare and bind
             $stmt = $conn->prepare("INSERT INTO post (title, body, post_link) VALUES (?, ?, ?)");
             $stmt->bind_param("sss", $title, $body, $post_link);
@@ -33,8 +31,8 @@ class PostModel extends Model
             $stmt->close();
           }else{
             print '<div class = "error-panel"> A post with this title already exists</div>';
-          } // end of is duplicate post block
-      } // end of not empty block 
+      } // end of is duplicate post block
+     
       unset($db);
       $conn->close();
      
@@ -60,7 +58,7 @@ public function read_all_posts(){
 
   public function edit_post($title, body, $slug){
    /* get link to post being edited */
-   $post_link = '/post/index/' . $slug;
+   $post_link = $slug;
 
    /* get current $id for this post as post_link may change */
    $id = $this->get_post_id($post_link);
@@ -97,7 +95,7 @@ public function read_all_posts(){
       $db = New Database();
     
       $conn = $db->db_connect();
-      $post_link = '/post/index/' . $slug;
+      $post_link = $slug;
    
       $sql = "DELETE FROM " . $this->table . " WHERE post_link = ?";
       if($stmt = $conn->prepare($sql)){
