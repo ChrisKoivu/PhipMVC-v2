@@ -41,17 +41,20 @@ class PostModel extends Model
    }
 
    /* read post method */
-   public function read_post($slug=""){
-     
-       if (empty($slug)){
-         // get all posts by default
-         return $this->select_all_records();
-       }else{
-         // get selected post
-         
-          return $this->get_post($slug);
-       }
-   }
+   
+public function read_post($slug){
+   
+   return $this->get_post($slug);
+      
+}
+
+
+
+/* get all saved posts */
+public function read_all_posts(){
+   return $this->select_all_records();
+
+}
 
    /* update post method */ 
 
@@ -135,7 +138,7 @@ class PostModel extends Model
       
       $db = New Database();
       $conn = $db->db_connect();
-      $post_link = '/post/index/' . $slug;
+      $post_link = $slug;
       $data = array();
       $sql = "SELECT * FROM " . $this->table . " WHERE post_link = ?";
       
