@@ -78,7 +78,7 @@ class Model
       $stmt->bind_param("i", $id); 
 
       // if $id is not an integer dont run query
-     if (($id > -1) && is_int($id)) { 
+     if (($id >= 0) && is_int($id)) { 
          // execute the prepared statement
          if($stmt->execute()){     
            // fetch the rows and save to data array
