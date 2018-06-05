@@ -29,30 +29,32 @@ class PostController extends Controller
     // this method displays all of our posts
     // if $query empty, all posts displayed
     // if query has slug name, that post is shown
-    public function index($query)
-  
-{
-        
- try {     
-    if(!empty($query) {     
+    public function index($query) {          
+      try {     
+         if(!empty($query)) {     
+            $slug = '/post/index/' . trim($query);           
+            $posts = $this->_model->read_post($slug);   
+         } else {
+            $posts = $this->_model->read_all_posts();
+         }
+         
+         $this->_view->set('posts',$posts);        
+         return $this->_view->render();       
+      } catch (Exception $e) {        
+         echo "Application error:" . $e->getMessage();      
+      }
+    } // end of index method
 
-      $slug = '/post/index/' . trim($query);           
-      $posts = $this->_model->read_post($slug);   
-    } else {
-      $posts = $this->_model->read_all_posts();
-    }      
-     
-           
-    $this->_view->set('posts',$posts);        
-                       
-            
-    return $this->_view->render(); 
-       
- } catch (Exception $e) {
-            
-    echo "Application error:" . $e->getMessage();
-        
- }
-   
-}
-}
+    public function edit($query){
+        if(!empty($query)){
+            $slug = '/post/index/' . trim($query);
+            $post = $this->_model->read_post($slug);
+            print_r($post);
+            echo $post['title'];
+            $this->_view->set('title',$post['title']);
+            $this->_view->set('body', $post['body']);
+            return $this->_view->render();
+        }
+    }
+
+} // End of PostController class 

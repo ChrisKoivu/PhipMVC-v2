@@ -56,7 +56,7 @@ public function read_all_posts(){
 
    /* update post method */ 
 
-  public function edit_post($title, body, $slug){
+  public function edit_post($title, $body, $slug){
    /* get link to post being edited */
    $post_link = $slug;
 
