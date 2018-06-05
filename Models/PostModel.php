@@ -62,10 +62,9 @@ public function read_all_posts(){
 
    /* get current $id for this post as post_link may change */
    $id = $this->get_post_id($post_link);
-
-   if (filter_var($id, FILTER_VALIDATE_INT) === 0 || filter_var($int, FILTER_VALIDATE_INT) ) {
-      $db = New Database();
-    
+   // validate that the primary key is a valid integer value
+   if (($id > -1) && is_int($id)) {  
+      $db = New Database();    
       $conn = $db->db_connect();
    
       $sql = "UPDATE " . $this->table . " SET title = ? SET body = ? SET post_link = ? WHERE id = ?";
