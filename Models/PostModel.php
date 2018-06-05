@@ -63,7 +63,7 @@ public function read_all_posts(){
    /* get current $id for this post as post_link may change */
    $id = $this->get_post_id($post_link);
    // validate that the primary key is a valid integer value
-   if (($id > -1) && is_int($id)) {  
+   if (($id >= 0) && is_int($id)) {  
       $db = New Database();    
       $conn = $db->db_connect();
    
