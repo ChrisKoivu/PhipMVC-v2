@@ -49,10 +49,13 @@ class PostController extends Controller
         if(!empty($query)){
             $slug = '/post/index/' . trim($query);
             $post = $this->_model->read_post($slug);
-            print_r($post);
-            echo $post['title'];
             $this->_view->set('title',$post['title']);
             $this->_view->set('body', $post['body']);
+            if (!empty($_POST['post_title']) && !empty($_POST['post_body'] ) ) {
+                $title = $_POST['post_title'];
+                $body = $_POST['post_body'];
+                $this->_model->edit_post($title, $body, $post['post_link']);
+             }
             return $this->_view->render();
         }
     }

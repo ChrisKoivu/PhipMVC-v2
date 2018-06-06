@@ -85,7 +85,7 @@ class Model
            $result = $stmt->get_result();
            while ($row = $result->fetch_assoc())
            {
-             $data[] = $row;
+             $data = $row;
            }
 
          } 
