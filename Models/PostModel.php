@@ -135,14 +135,12 @@ public function read_all_posts(){
       return $post_link;
    }
 
-   private function filter_post_link($post_link){
-      // strip url 
-      $base_url = str_replace("/post/index/","",$post_link);
-      
-      // strip any tags from url 
-      $post_link = $this->create_post_link($base_url);
-      return $post_link;
-    }
+   function filter_post_link($post_link){
+    $base_url = str_replace('/post/index/','',$post_link);    
+    $base_url = htmlspecialchars(stripslashes(trim($base_url)));
+    $post_link = '/post/index/' . $base_url;     
+    return $post_link;
+ }
 
 
    public function get_post($slug){
