@@ -127,17 +127,29 @@ public function read_all_posts(){
    }
 
    private function create_post_link($post_title){
-      $post_link = trim(strtolower($post_title));
-      $post_link = '/post/index/' . str_replace(' ', '_', $post_link);
+      $title = trim(strtolower($post_title));
+      $db = New Database();
+      $title = $db->filter_input_value($title);
+      $post_link = '/post/index/' . str_replace(' ', '_', $title);
+      unset($db);
       return $post_link;
    }
+
+   private function filter_post_link($post_link){
+      // strip url 
+      $base_url = str_replace("/post/index/","",$post_link);
+      
+      // strip any tags from url 
+      $post_link = $this->create_post_link($base_url);
+      return $post_link;
+    }
 
 
    public function get_post($slug){
       
       $db = New Database();
       $conn = $db->db_connect();
-      $post_link = $slug;
+      $post_link = $this->filter_post_link($slug);
       $data = array();
       $sql = "SELECT * FROM " . $this->table . " WHERE post_link = ? LIMIT 1";
       
@@ -145,7 +157,7 @@ public function read_all_posts(){
         
           // Bind variables
           $stmt->bind_param("s", $post_link); 
-          $post_link = $db->filter_input_value($post_link);
+        
    
           // execute the prepared statement
           if($stmt->execute()){     
@@ -192,6 +204,7 @@ public function read_all_posts(){
       return $result;
    }
 
+  
    // verifies post is unique 
    private function is_duplicate_post($post_title){
       $link = $this->create_post_link($post_title);
