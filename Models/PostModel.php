@@ -150,7 +150,10 @@ public function read_all_posts(){
       $db = New Database();
       $conn = $db->db_connect();
       $post_link = $this->filter_post_link($slug);
+      print $post_link;
+      
       $data = array();
+      
       $sql = "SELECT * FROM " . $this->table . " WHERE post_link = ? LIMIT 1";
       
       if($stmt = $conn->prepare($sql)){
