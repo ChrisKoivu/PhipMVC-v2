@@ -2,7 +2,7 @@
 
 
 <div class="content container">  
-    <?php  if ($posts)  {   ?>
+    <?php  if (!empty($posts))  {   ?>
 
         <?php foreach($posts as $post_value) {?>
         <div class="post">
