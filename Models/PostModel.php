@@ -17,16 +17,19 @@ class PostModel extends Model
    /* create post method */
    public function add_post($title, $body){
       $db = New Database();
+      $session = New Session();
       $conn = $db->db_connect();
+      
       if(!$this->is_duplicate_post($title)){
             // prepare and bind
-            $stmt = $conn->prepare("INSERT INTO post (title, body, post_link) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $title, $body, $post_link);
+            $stmt = $conn->prepare("INSERT INTO post (title, body, post_link, user_username) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $title, $body, $post_link, $user_username);
           
             // set parameters and execute 
             $title = $db->filter_input_value($title);
             $body = $db->filter_input_value($body);
             $post_link = $this->create_post_link($title);     
+            $user_username = trim($session->get_session_value('username'));
             $stmt->execute();
             $stmt->close();
           }else{
@@ -120,7 +123,8 @@ public function read_all_posts(){
           id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
           title varchar(128) NOT NULL,
           body TEXT NOT NULL,
-          post_link varchar(128) NOT NULL
+          post_link varchar(128) NOT NULL,
+          user_username varchar(128) NOT NULL
       )
     ";
     $this->create_model_table($sql_post_table);
