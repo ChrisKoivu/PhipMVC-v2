@@ -15,7 +15,7 @@ class PostModel extends Model
    
 
    /* create post method */
-   public function add_post($title, $body){
+   public function add_post($title, $body, $username){
       $db = New Database();
       $session = New Session();
       $conn = $db->db_connect();
@@ -23,13 +23,13 @@ class PostModel extends Model
       if(!$this->is_duplicate_post($title)){
             // prepare and bind
             $stmt = $conn->prepare("INSERT INTO post (title, body, post_link, user_username) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $title, $body, $post_link, $user_username);
+            $stmt->bind_param("ssss", $title, $body, $post_link, $username);
           
             // set parameters and execute 
             $title = $db->filter_input_value($title);
             $body = $db->filter_input_value($body);
             $post_link = $this->create_post_link($title);     
-            $user_username = trim($session->get_session_value('username'));
+            $username = trim($username);
             $stmt->execute();
             $stmt->close();
           }else{
