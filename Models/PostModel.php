@@ -167,7 +167,7 @@ public function read_all_posts(){
             $result = $stmt->get_result();
             while ($row = $result->fetch_assoc())
             {
-              $data = $row;
+              $data[]= $row;
             }
 
           } 
