@@ -17,7 +17,6 @@ class PostModel extends Model
    /* create post method */
    public function add_post($title, $body, $username){
       $db = New Database();
-      $session = New Session();
       $conn = $db->db_connect();
       
       if(!$this->is_duplicate_post($title)){
@@ -29,7 +28,7 @@ class PostModel extends Model
             $title = $db->filter_input_value($title);
             $body = $db->filter_input_value($body);
             $post_link = $this->create_post_link($title);     
-            $username = trim($username);
+            $username = $db->filter_input_value($username);
             $stmt->execute();
             $stmt->close();
           }else{
