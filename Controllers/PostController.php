@@ -5,25 +5,53 @@
 
 class PostController extends Controller
 {
+    private $username;
+    
     public function __construct($model, $action)
     {        
         parent::__construct($model, $action);            
         $this->_setModel(trim($model));
-        
+        $session = New Session();
+        $this->username = trim($session->get_session_value('username'));
     }
      
    public function add_post() {
-    try {     
-        if (!empty($_POST['post_title']) && !empty($_POST['post_body'] ) ) {
-            $title = $_POST['post_title'];
-            $body = $_POST['post_body'];
-            $this->_model->add_post($title, $body);
-         }
-         return $this->_view->render();
-    } catch (Exception $e) {
-        echo "Application error:" . $e->getMessage();
-    }
+    
+   try {  
+      $error = '';
+      /* validate if a post submission or just the display form */
+      if($_SERVER["REQUEST_METHOD"] == "POST"){  
+        if (!empty($this->username)) { 
+        
+          if (!empty($_POST['post_title']) && !empty($_POST['post_body'] )) {
+  
+             $title = $_POST['post_title'];
+     
+             $body = $_POST['post_body'];
+           
+             $this->_model->add_post($title, $body, $this->username);
+        
+          }
+  else {
+             $error = 'Posts require a title and a body';
+          }
+        }else{
+           $error = 'Only authorized users can add a post';
+        }  
+      } // end of request method
+
+      $this->_view->set('error', $error);
+      return $this->_view->render();
+    
+   } catch (Exception $e) {
+        
+      echo "Application error:" . $e->getMessage();
+    
    }
+   
+}
+
+ // end of add post function
 
 
     // this method displays all of our posts
