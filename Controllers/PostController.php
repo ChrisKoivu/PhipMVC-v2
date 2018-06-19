@@ -74,18 +74,42 @@ class PostController extends Controller
     } // end of index method
 
     public function edit($query){
-        if(!empty($query)){
-            $slug = '/post/index/' . trim($query);
-            $post = $this->_model->read_post($slug);
-            $this->_view->set('title',$post['title']);
-            $this->_view->set('body', $post['body']);
-            if (!empty($_POST['post_title']) && !empty($_POST['post_body'] ) ) {
-                $title = $_POST['post_title'];
-                $body = $_POST['post_body'];
-                $this->_model->edit_post($title, $body, $post['post_link']);
-             }
-            return $this->_view->render();
-        }
-    }
 
+         $error = '';
+         if(!empty($query)){
+            
+              $slug = '/post/index/' . trim($query);
+           
+              $post = $this->_model->read_post($slug);
+            
+              $this->_view->set('title',$post['title']);
+            
+              $this->_view->set('body', $post['body']);
+     
+           
+              if($_SERVER["REQUEST_METHOD"] == "POST"){   
+                if ($post['user_username'] === $this->username) {   
+                  if (!empty($_POST['post_title']) && !empty($_POST['post_body'] ) ) {
+                
+                    $title = $_POST['post_title'];
+                
+                    $body = $_POST['post_body'];
+                               
+                    $this->_model->edit_post($title, $body, $post['post_link']);
+            
+                  }
+ else {
+                    $error = "Title and body can not be blank";
+                  }
+                } else {
+                  $error = "Only authorized users can edit a post";
+                }
+              }
+   // end of post validation block
+              $this->_view->set('error', $error);
+ 
+              return $this->_view->render(); 
+        }          
+            
+     } // end of edit post function
 } // End of PostController class 
