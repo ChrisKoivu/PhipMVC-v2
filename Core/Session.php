@@ -44,8 +44,11 @@ Class Session
       }
             
       public function get_session_value($key){
-          if(isset($_SESSION[$key]))
+          if(isset($_SESSION[$key])){
             return $_SESSION[$key];
+          } else {
+            return NULL;          
+          }
       }
             
       public function get_session_id(){         
