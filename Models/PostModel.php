@@ -73,10 +73,10 @@ public function read_all_posts(){
 
            // set values
            $post_link = $this->filter_post_link($slug);
-           $new_post_link = $this->create_post_link($db->filter_input_value($title));
            $body = $db->filter_input_value($body);
            $title = $db->filter_input_value($title);
-
+           $new_post_link = $this->create_post_link($title);
+           
            // execute query
            $stmt->execute();
            $stmt->close();
