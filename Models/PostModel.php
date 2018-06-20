@@ -62,20 +62,18 @@ public function read_all_posts(){
    /* get link to post being edited */
    $post_link = $slug;
    
-   /* get current $id for this post as post_link may change */
-   $id = $this->get_post_id($post_link);
-   // validate that the primary key is a valid integer value
-   if (($id >= 0) && is_int($id)) {  
+   
       $db = New Database();    
       $conn = $db->db_connect();
    
-      $sql = "UPDATE " . $this->table . " SET title = ? SET body = ? SET post_link = ? WHERE id = ?";
+      $sql = "UPDATE " . $this->table . " SET title = ? SET body = ? SET post_link = ? WHERE post_link = ?";
        if($stmt = $conn->prepare($sql)){
            // Bind variables
-           $stmt->bind_param("sssi", $title, $body, $post_link, $id); 
+           $stmt->bind_param("ssss", $title, $body, $new_post_link, $post_link); 
 
            // set values
-           $post_link = $this->create_post_link($db->filter_input_value($title));
+           $post_link = $this->filter_post_link($slug);
+           $new_post_link = $this->create_post_link($db->filter_input_value($title));
            $body = $db->filter_input_value($body);
            $title = $db->filter_input_value($title);
 
@@ -85,9 +83,7 @@ public function read_all_posts(){
        }
        $conn->close();
        unset($db);
-   } else {
-      echo("Primary key is invalid");
-   }   
+   
 }
 
 
