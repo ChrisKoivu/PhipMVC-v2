@@ -112,4 +112,39 @@ class PostController extends Controller
         }          
             
      } // end of edit post function
+     
+     public function delete($query){
+
+
+  $error = '';
+    
+  $confirm = '';     
+  if(!empty($query)){
+ 
+     $slug = '/post/index/' . trim($query);
+     $post = $this->_model->read_post($slug);
+     $this->_view->set('title',$post['title']);
+     $this->_view->set('body', $post['body']);
+     
+     
+     if ($post['user_username'] === $this->username) { 
+       $confirm = 'Are you sure you want to delete this post?'; 
+       $this->_view->set('confirm',$confirm);
+
+       if($_SERVER["REQUEST_METHOD"] == "POST"){ 
+           $this->_model->delete_post($slug);
+       }
+      } else {
+                  
+         $error = "Only authorized users can delete a post";
+                }
+      } // end of username auth block        
+     
+   }else{
+      $error = "Please select a post to delete";
+   }
+   $this->_view->set('error', $error);
+   return $this->_view->render();
+} // end of delete post function
+
 } // End of PostController class 
