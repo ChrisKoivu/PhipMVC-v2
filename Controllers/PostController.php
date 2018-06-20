@@ -74,28 +74,31 @@ class PostController extends Controller
     } // end of index method
 
     public function edit($query){
-
+         print $this->username;
          $error = '';
          if(!empty($query)){
             
               $slug = '/post/index/' . trim($query);
            
               $post = $this->_model->read_post($slug);
+              
             
-              $this->_view->set('title',$post['title']);
+              $this->_view->set('title',$post[0]['title']);
             
-              $this->_view->set('body', $post['body']);
+              $this->_view->set('body', $post[0]['body']);
      
            
               if($_SERVER["REQUEST_METHOD"] == "POST"){   
-                if ($post['user_username'] === $this->username) {   
+                if ($post[0]['user_username'] === $this->username) {   
                   if (!empty($_POST['post_title']) && !empty($_POST['post_body'] ) ) {
                 
                     $title = $_POST['post_title'];
                 
                     $body = $_POST['post_body'];
-                               
-                    $this->_model->edit_post($title, $body, $post['post_link']);
+                    print 'in edit method, prior to edit post call in model';           
+
+                    // this part isnt editing anything just printing to screen
+                    $this->_model->edit_post($title, $body, $post[0]['post_link']);
             
                   }
  else {
@@ -140,9 +143,6 @@ class PostController extends Controller
                 }
       } // end of username auth block        
      
-   }else{
-      $error = "Please select a post to delete";
-   }
    $this->_view->set('error', $error);
    return $this->_view->render();
 } // end of delete post function
