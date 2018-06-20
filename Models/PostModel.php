@@ -98,7 +98,7 @@ public function read_all_posts(){
       $db = New Database();
     
       $conn = $db->db_connect();
-      $post_link = $slug;
+      $post_link =  $this->filter_post_link($slug);
    
       $sql = "DELETE FROM " . $this->table . " WHERE post_link = ?";
       if($stmt = $conn->prepare($sql)){
