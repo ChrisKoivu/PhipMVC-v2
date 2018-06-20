@@ -61,8 +61,6 @@ public function read_all_posts(){
   public function edit_post($title, $body, $slug){
    /* get link to post being edited */
    $post_link = $slug;
-   print $title . PHP_EOL;
-   print $body . PHP_EOL;
    
    /* get current $id for this post as post_link may change */
    $id = $this->get_post_id($post_link);
