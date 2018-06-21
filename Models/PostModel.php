@@ -61,13 +61,17 @@ public function read_all_posts(){
   public function edit_post($title, $body, $slug){
    /* get link to post being edited */
    $post_link = $slug;
-   
+      print '<br><br><br>' . $title . '<br>'. $body . '<br>' . $slug;
    
       $db = New Database();    
       $conn = $db->db_connect();
-   
+      print_r($conn);
       $sql = "UPDATE " . $this->table . " SET title = ? SET body = ? SET post_link = ? WHERE post_link = ?";
-       if($stmt = $conn->prepare($sql)){
+      print '<br><br><br>'  . $sql;
+
+      /* bug is here, prepared statement not working */
+      if($stmt = $conn->prepare($sql)){
+          print '<br><br><br><br><br>' . $sql;
            // Bind variables
            $stmt->bind_param("ssss", $title, $body, $new_post_link, $post_link); 
 

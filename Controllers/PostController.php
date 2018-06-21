@@ -74,7 +74,7 @@ class PostController extends Controller
     } // end of index method
 
     public function edit($query){
-         print $this->username;
+        
          $error = '';
          if(!empty($query)){
             
@@ -95,8 +95,6 @@ class PostController extends Controller
                     $title = $_POST['post_title'];
                 
                     $body = $_POST['post_body'];
-                    print 'in edit method, prior to edit post call in model';           
-
                     // this part isnt editing anything just printing to screen
                     $this->_model->edit_post($title, $body, $post[0]['post_link']);
             
