@@ -61,29 +61,42 @@ public function read_all_posts(){
   public function edit_post($title, $body, $slug){
    /* get link to post being edited */
    $post_link = $slug;
-      print '<br><br><br>' . $title . '<br>'. $body . '<br>' . $slug;
+       
    
       $db = New Database();    
       $conn = $db->db_connect();
       print_r($conn);
       $sql = "UPDATE " . $this->table . " SET title = ? SET body = ? SET post_link = ? WHERE post_link = ?";
-      print '<br><br><br>'  . $sql;
+      
 
       /* bug is here, prepared statement not working */
       if($stmt = $conn->prepare($sql)){
           print '<br><br><br><br><br>' . $sql;
-           // Bind variables
-           $stmt->bind_param("ssss", $title, $body, $new_post_link, $post_link); 
-
+           
            // set values
            $post_link = $this->filter_post_link($slug);
            $body = $db->filter_input_value($body);
            $title = $db->filter_input_value($title);
            $new_post_link = $this->create_post_link($title);
            
+           // Bind variables
+           if(!$stmt->bind_param("ssss", $title, $body, $new_post_link, $post_link)) {
+             echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+           }
+
+         
+           
            // execute query
-           $stmt->execute();
+           if ($stmt->execute()) {
+              //query with out errors:
+              printf("rows updated: %d\n", $stmt->affected_rows);
+           } else {
+              //some error:
+              printf("Error: %s.\n", $stmt->error);
+           }
            $stmt->close();
+       } else {
+          echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;       
        }
        $conn->close();
        unset($db);
