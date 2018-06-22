@@ -149,7 +149,7 @@ public function read_all_posts(){
       return $post_link;
    }
 
-   function filter_post_link($post_link){
+  private function filter_post_link($post_link){
     $base_url = str_replace('/post/index/','',$post_link);    
     $base_url = htmlspecialchars(stripslashes(trim($base_url)));
     $post_link = '/post/index/' . $base_url;     
@@ -157,13 +157,11 @@ public function read_all_posts(){
  }
 
 
-   public function get_post($slug){
+   private function get_post($slug){
       
       $db = New Database();
       $conn = $db->db_connect();
       $post_link = $this->filter_post_link($slug);
-      print $post_link;
-      
       $data = array();
       
       $sql = "SELECT * FROM " . $this->table . " WHERE post_link = ? LIMIT 1";
