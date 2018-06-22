@@ -65,13 +65,12 @@ public function read_all_posts(){
    
       $db = New Database();    
       $conn = $db->db_connect();
-      print_r($conn);
+    
       $sql = "UPDATE " . $this->table . " SET title = ? SET body = ? SET post_link = ? WHERE post_link = ?";
       
 
       /* bug is here, prepared statement not working */
       if($stmt = $conn->prepare($sql)){
-          print '<br><br><br><br><br>' . $sql;
            
            // set values
            $post_link = $this->filter_post_link($slug);
