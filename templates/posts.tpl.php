@@ -26,7 +26,7 @@
           </div><!-- end of post section -->
         <?php } ?>
     <?php  } else {   
-       echo 'there are no posts yet';  
+       echo '<div class = "help-block">There are no posts yet. </div>' ; 
     }
  ?>    
 </div> <!-- /container -->
