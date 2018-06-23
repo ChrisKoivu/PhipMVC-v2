@@ -3,18 +3,23 @@
 
 <h1>Delete Post</h1>
 
-<p>Are you sure you want to delete this post?</p>
- 
-<h3><?php echo 'Post Title: ' . trim($title);?></h3>
-<p>  
-   <?php echo trim($body);?>
-</p>
+<p><?php echo $confirm; ?></p>
+
+   <p><?php echo '<div class = "help-block">' . $error . '</div>'; ?></p>
+   <?php if(!empty ($title)){ echo '<h3>Post Title: ' . trim($title) . '</h3>';}?>
+   <?php  if(!empty ($body)){ echo '<p>' . trim($body) .'</p>';}?>
 
 
 <form action="" method="post">
      <div class="form-group">
-        <input type="submit" class="btn btn-primary" value="Delete">    
-     </div>
+        <?php if(!empty ($title)){
+          echo '<input type="submit" class="btn btn-primary" value="Delete">';
+        }else{
+            echo '<a class="btn btn-secondary" href="/post/index/" role="button">Return &raquo;</a>';
+        }  
+        ?>  
+        
+        </div>
  </form>
         
 
