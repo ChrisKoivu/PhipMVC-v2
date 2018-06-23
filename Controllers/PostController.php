@@ -66,7 +66,8 @@ class PostController extends Controller
             $posts = $this->_model->read_all_posts();
          }
          
-         $this->_view->set('posts',$posts);        
+         $this->_view->set('username', $this->username);
+         $this->_view->set('posts',$posts);  
          return $this->_view->render();       
       } catch (Exception $e) {        
          echo "Application error:" . $e->getMessage();      
@@ -90,25 +91,26 @@ class PostController extends Controller
            
               if($_SERVER["REQUEST_METHOD"] == "POST"){   
                 if ($post[0]['user_username'] === $this->username) {   
-                  if (!empty($_POST['post_title']) && !empty($_POST['post_body'] ) ) {
-                
-                    $title = $_POST['post_title'];
-                
+                  if (!empty($_POST['post_body'] ) ){
                     $body = $_POST['post_body'];
-                    // this part isnt editing anything just printing to screen
-                    $this->_model->edit_post($title, $body, $post[0]['post_link']);
-            
+                    $post_url =  $post[0]['post_link'];
+                     if( $this->_model->edit_post($body, $post_url)){
+                    
+                      $session = New Session();
+                      $session->redirect($post_url);
+                     }
                   }
  else {
                     $error = "Title and body can not be blank";
                   }
+                  $auth = true;
                 } else {
                   $error = "Only authorized users can edit a post";
+                  $auth = false;
                 }
               }
    // end of post validation block
               $this->_view->set('error', $error);
- 
               return $this->_view->render(); 
         }          
             
@@ -121,14 +123,18 @@ class PostController extends Controller
     
   $confirm = '';     
   if(!empty($query)){
- 
+     /* need to debug this part */
      $slug = '/post/index/' . trim($query);
      $post = $this->_model->read_post($slug);
-     $this->_view->set('title',$post['title']);
-     $this->_view->set('body', $post['body']);
+
+     $title = $post[0]['title'];
+     $body = $post[0]['body'];
+
+     $this->_view->set('title', $title);
+     $this->_view->set('body', $body );
      
      
-     if ($post['user_username'] === $this->username) { 
+     if ($post[0]['user_username'] === $this->username) { 
        $confirm = 'Are you sure you want to delete this post?'; 
        $this->_view->set('confirm',$confirm);
 

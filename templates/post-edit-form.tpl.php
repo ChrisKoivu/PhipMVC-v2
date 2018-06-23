@@ -1,19 +1,13 @@
 <?php include HOME . '/Core/includes/post.inc.php'; ?> 
 <div class="form-wrapper">
 
-<h2>Add Post</h2>
+<h1>Edit Post</h1>
 
 <p>Please complete this form</p>
  
+<h3><?php echo 'Post Title: ' . trim($title)?></h3>
 <form action="" method="post">
-    <div class="form-group"> 
-        <label>Title</label> 
-        <input type="text" class="form-control" name="post_title" value="<?php echo trim($title)?>"> 
-        <span class="help-block"><?php echo $title_err; ?></span>
-     </div>
-     
-     <div class="form-group">  
-        <label>Post Body</label>
+    <div class="form-group">  
         <textarea class="form-control" name="post_body" rows="10"><?php echo trim($body);?></textarea> 
         <span class="help-block"><?php echo $body_err; ?></span>
      </div>
