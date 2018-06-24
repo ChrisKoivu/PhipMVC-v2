@@ -49,12 +49,14 @@ class UserController extends Controller
     }
 
     public function admin(){
+       $error = "";
        $session = New Session();
        if ($session->is_admin()){ 
          // do some action
        }else{
          $error = 'You are not an Administrator of this website';
        }
+       $this->_view->set('error', $error);
        return $this->_view->render();
     }
 
