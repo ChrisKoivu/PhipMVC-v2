@@ -1,35 +1,27 @@
 <!DOCTYPE html>
-<?php 
-     /* ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-Copyright (c) June 28, 2015. Christopher M Koivu.
-
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of 
-this software and associated documentation files (the "Software"), the rights to 
-use, copy, modify, merge, publish, or distribute copies of the Software, and to 
-permit persons to whom the Software is furnished to do so, subject to the 
-following conditions:
-
-The above copyright notice and this permission notice shall be included in all 
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
-PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-////////////////////////////////////////////////////////////////////////////////////////////////////////// */
- 
      
-       include($this->header);   
-        /* greeting is data that was passed to this view
-        from the HomeController index method */
-        Print PHP_EOL . '<div class="welcome"><h1>' . $greeting . '</h1></div>';
-        include HOME . '/templates/content.tpl.php';
-        include($this->footer); 
+       <?php include($this->header); ?>
+
+        <div class="content container">
+        <!-- Example row of columns -->
+        <div class="row">
+          <div class="col-md-12  ">
+            <h2><?php echo $greeting; ?></h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique a expedita dicta! Possimus vitae, asperiores quam rem consequuntur beatae praesentium, nisi atque ut consectetur dolor eveniet aspernatur! Cumque culpa blanditiis magnam necessitatibus voluptates? Itaque, fugiat cupiditate numquam similique eaque nulla quibusdam minus quisquam amet vero possimus magni, dolorem recusandae ipsa veritatis facilis debitis? Explicabo nihil amet distinctio fugiat repellat. Eaque cumque, quaerat, suscipit hic dolores facilis perspiciatis voluptatibus consequatur sed nihil quas omnis. Obcaecati tempore, sit iusto quae ex accusamus distinctio sed id itaque placeat explicabo possimus aliquam vero natus beatae libero suscipit corporis laboriosam eaque fugit debitis nihil repudiandae voluptas. Illo placeat nemo vero facere consequatur, corporis magnam laudantium provident necessitatibus labore, nobis alias maiores saepe voluptates doloribus iste. </p>
+            <p><a class="btn btn-secondary" href="/post/index/" role="button">View posts &raquo;</a></p>
+          </div>
+         
+         
+        </div>
+
+        <hr>
+
+      </div> <!-- /container -->
+
+
+      <?php  include($this->footer); ?>
         
         
         
-?>  
+
        

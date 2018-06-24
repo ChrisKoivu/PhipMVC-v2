@@ -30,7 +30,8 @@ class PostController extends Controller
              $body = $_POST['post_body'];
            
              $this->_model->add_post($title, $body, $this->username);
-        
+             $session = New Session();
+             $session->redirect("/post/index/");
           }
   else {
              $error = 'Posts require a title and a body';
@@ -139,7 +140,9 @@ class PostController extends Controller
           $confirm = 'Are you sure you want to delete this post?'; 
 
           if($_SERVER["REQUEST_METHOD"] == "POST"){ 
-           $this->_model->delete_post($slug);
+             $this->_model->delete_post($slug);
+             $session = New Session();
+             $session->redirect("/post/index/");
           }
         } else {
                   
@@ -148,7 +151,9 @@ class PostController extends Controller
        } else{
          $error = 'This post does not exist';
        }// end of if post exists check block
-      } // end of if empty query check        
+      } else {
+        $error = 'You must specify a post to delete!';
+      }// end of if empty query check        
      
    $this->_view->set('error', $error);
    $this->_view->set('confirm', $confirm);

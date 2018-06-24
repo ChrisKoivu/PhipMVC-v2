@@ -34,11 +34,6 @@ class UserController extends Controller
         $this->_setModel($model);      
     }//end of constructor
      
-    public function index()
-    {
-        return $this->_view->render();   
-    }   
-
     public function register(){
         /* overriding the default header set in the parent class */
         $this->_view->set_header('header-register.php');
@@ -53,6 +48,15 @@ class UserController extends Controller
         return $this->_view->render();
     }
 
+    public function admin(){
+       $session = New Session();
+       if ($session->is_admin()){ 
+         // do some action
+       }else{
+         $error = 'You are not an Administrator of this website';
+       }
+       return $this->_view->render();
+    }
 
     public function logout(){
         /* logout of the session */

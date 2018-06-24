@@ -8,12 +8,12 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title><?php echo SITE_TITLE ?></title>
+     <title><?php echo SITE_TITLE ?></title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">  </head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <link rel="stylesheet" href="<?php echo STYLESHEET_DIR . 'styles.css' ?>">
-   </head>
+  </head>
   <div id="header">
 
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -24,25 +24,36 @@
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/home/index">Home <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item">
-            <?php $session = New Session();?>
-            <a class="nav-link <?php if (!$session->is_admin()){echo "disabled";} ?>" href="#">Admin</a>
-          </li>
+          <?php $session = New Session();?>
+          <?php if ($session->is_admin()){ ?> 
+            <?php print '<li class="nav-item">' . PHP_EOL;?>
+            <?php print '<a class="nav-link" href="/user/admin/">Admin</a>'.PHP_EOL;?>
+            <?php print '</li>' . PHP_EOL; ?>
+          <?php } ?>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Post</a>
             <div class="dropdown-menu" aria-labelledby="dropdown01">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a> 
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" href="/post/index/">Read Posts</a>
+              <a class="dropdown-item" href="/post/add_post/">Add Post</a>
             </div>
               </li>
         </ul>
       </div>
+      
+      <?php 
+         $session = New Session();
+         if($session->is_logged_in()){
+           $link_text = "Logout";
+           $link = "/user/logout";
+         }else{
+          $link_text = "Login";
+          $link = "/user/login";
+         }
+      ?>
+       <div class = "navbar-right"><a href="<?php echo $link; ?>" class="nav-link"><?php echo $link_text; ?> </a>
+      </div>
     </nav>
-  </div><!--close header -->
-<body><!-- include register form template -->
+  </div>
+<body>

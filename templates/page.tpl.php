@@ -4,8 +4,8 @@
 
    <?php include 'header.php' ?>
     <main role="main">
-       <?php include 'jumbotron.php' ?>
-       <?php include 'content.php' ?>      
+       <?php include 'jumbotron.tpl.php' ?>
+       <?php include 'content.tpl.php' ?>      
     </main>
 
     <?php include 'footer.php' ?>
