@@ -15,44 +15,33 @@ class PostController extends Controller
         $this->username = trim($session->get_session_value('username'));
     }
      
-   public function add_post() {
-    
-   try {  
-      $error = '';
-      /* validate if a post submission or just the display form */
-      if($_SERVER["REQUEST_METHOD"] == "POST"){  
-        if (!empty($this->username)) { 
-        
-          if (!empty($_POST['post_title']) && !empty($_POST['post_body'] )) {
-  
-             $title = $_POST['post_title'];
-     
-             $body = $_POST['post_body'];
-           
-             $this->_model->add_post($title, $body, $this->username);
-             $session = New Session();
-             $session->redirect("/post/index/");
-          }
-  else {
-             $error = 'Posts require a title and a body';
-          }
-        }else{
-           $error = 'Only authorized users can add a post';
-        }  
-      } // end of request method
-
-      $this->_view->set('error', $error);
-      return $this->_view->render();
-    
-   } catch (Exception $e) {
-        
+  public function add_post() {
+    try {  
+        $error = '';
+        /* validate if a post submission or just the display form */
+        if($_SERVER["REQUEST_METHOD"] == "POST"){  
+          // check if logged in
+          if (!empty($this->username)) { 
+            // verify post has a title and a body
+            if (!empty($_POST['post_title']) && !empty($_POST['post_body'] )) {
+              // call the add post function in PostModel class
+              $this->_model->add_post($_POST['post_title'], $_POST['post_body'], $this->username);
+              $session = New Session();
+              $session->redirect("/post/index/");
+            } else {
+              $error = 'Posts require a title and a body';
+            }
+          }else{
+            $error = 'Only authorized users can add a post';
+          }  
+        } // end of request method
+       // send data to view and render
+       $this->_view->set('error', $error);
+       return $this->_view->render();
+    } catch (Exception $e) {
       echo "Application error:" . $e->getMessage();
-    
-   }
-   
-}
-
- // end of add post function
+    }
+  } // end of add post function
 
 
     // this method displays all of our posts
