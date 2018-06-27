@@ -27,10 +27,13 @@ class PostModel extends Model {
             $body = $db->filter_input_value($body);
             $post_link = $this->create_post_link($title);     
             $username = $db->filter_input_value($username);
-            $stmt->execute();
-            $stmt->close();
-          }else{
-            print '<div class = "error-panel"> A post with this title already exists</div>';
+            if($stmt->execute()) {
+              $stmt->close();
+              return true;
+            }        
+      }else{
+          print '<div class = "error-panel"> A post with this title already exists</div>';
+          return false;
       } // end of is duplicate post block
       unset($db);
       $conn->close();

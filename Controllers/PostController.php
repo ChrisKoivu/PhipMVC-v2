@@ -25,9 +25,10 @@ class PostController extends Controller
             // verify post has a title and a body
             if (!empty($_POST['post_title']) && !empty($_POST['post_body'] )) {
               // call the add post function in PostModel class
-              $this->_model->add_post($_POST['post_title'], $_POST['post_body'], $this->username);
-              $session = New Session();
-              $session->redirect("/post/index/");
+              if($this->_model->add_post($_POST['post_title'], $_POST['post_body'], $this->username)){
+                $session = New Session();
+                $session->redirect("/post/index/");
+              }
             } else {
               $error = 'Posts require a title and a body';
             }
