@@ -224,13 +224,20 @@ class PostModel extends Model {
 
     
   // verifies post is unique 
-  private function is_duplicate_post($post_title){
-    $link = $this->create_post_link($post_title);
-    if($this->get_post_id($link) < 0 ){
-      return false;
-    } else {
-      return true;
-    }
+  private function is_duplicate_post($title){
+     // set objects 
+     $db = New Database();
+     $conn = $db->db_connect();
+     $post_title = $db->filter_input_value($title);
+     // prepare and bind
+     $stmt = $conn->prepare("SELECT * FROM post WHERE title = ? LIMIT 1");
+     $stmt->bind_param("s", $post_title);  
+     if($stmt->execute()){
+       $stmt->store_result();   
+       // returns 1 or 0, equiv to true or false   
+       return $stmt->num_rows;
+     } // end of execute block
+    
   } // end of is duplicate function
 
 } // end of post model class
