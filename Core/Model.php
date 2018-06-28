@@ -25,7 +25,7 @@ require_once HOME . '/Core/includes/Database.php';
 
 class Model 
 {
-    
+    private $error = "";
     protected $table;
 
     public function __construct()
@@ -58,9 +58,30 @@ class Model
     }
  
     protected function delete_record($id){
+        $db = New Database();
+        $conn = $db->db_connect();
+        $data = array();     
+        $res = false; 
+         // if $id is not an integer dont run query
+        if (($id >= 0) && is_int($id)) { 
+           $sql = "DELETE FROM " . $this->table . " WHERE id = ?";
+           if($stmt = $conn->prepare($sql)){
+             // Bind variables
+             $stmt->bind_param("i", $id); 
+             if($stmt->execute()){
+                $res = true;
+             } else {
+                $this->error = "Delete failed: (" . $stmt->errno . ") " . $stmt->error;
+             }
+           }
+        } else {
+          $this->error = "The record id is invalid";
+        }
+        $stmt->close();
+        $conn->close();
 
     }
-
+ 
     protected function select_record($id){
 
   
@@ -103,7 +124,9 @@ class Model
       return $db->table_exists($this->table);
     }
      
-     
+    public function get_error_message(){
+        return $this->error;
+    }
 } // end of Model class
 
 ?>
