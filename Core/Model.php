@@ -25,37 +25,38 @@ require_once HOME . '/Core/includes/Database.php';
 
 class Model 
 {
+    // set class variables
     private $error = "";
     protected $table;
 
     public function __construct()
     {
-    
-        $this->table = trim(strtolower(trim(get_class($this))),'model');
+       $this->table = trim(strtolower(trim(get_class($this))),'model');
     }
 
     protected function create_model_table($sql){
         $db = New Database();
         $db->create_table($sql);
-    }
+    } // end of create model table function
 
     protected function select_all_records(){
+        // set objects
         $db = New Database();
         $conn = $db->db_connect();
+        // set data array to empty array
         $data = array();
+        // set sql to query all records from current table
         $sql = "SELECT * FROM " . $this->table;
         $result = $conn->query($sql);
+        // if records found add to data array
         if ($result->num_rows > 0) {
-            // save query results to associative array
-            while($row = $result->fetch_assoc()) {
-              $data[]=$row;
-            }
-           return $data;
-        } else {
-           return false;
+          while($row = $result->fetch_assoc()) {
+            $data[]=$row;
+          }
         }
-        $conn->close();       
-    }
+        $conn->close();  
+        return $data;    
+    } // end of select all records function
  
     protected function delete_record($id){
         $db = New Database();
@@ -79,45 +80,37 @@ class Model
         }
         $stmt->close();
         $conn->close();
-
-    }
+    } // end of delete record function
  
     protected function select_record($id){
-
-  
-   $db = New Database();
-    
-   $conn = $db->db_connect();
-   $data = array();
-
-
-   $sql = "SELECT * FROM " . $this->table . " WHERE id = ?";
-
-   if($stmt = $conn->prepare($sql)){
-
-      // Bind variables
-      $stmt->bind_param("i", $id); 
-
+      // set objects
+      $db = New Database();
+      $conn = $db->db_connect();
+      // set data array to empty array
+      $data = array();
       // if $id is not an integer dont run query
-     if (($id >= 0) && is_int($id)) { 
-         // execute the prepared statement
-         if($stmt->execute()){     
-           // fetch the rows and save to data array
-           $result = $stmt->get_result();
-           while ($row = $result->fetch_assoc())
-           {
-             $data = $row;
-           }
-
-         } 
-         $stmt->close();
-       }
-   }    
-
-   $conn->close();
-   // returns assoc array with query results or an empty array
-   return $data;
-}
+      if (($id >= 0) && is_int($id)) {
+            $sql = "SELECT * FROM " . $this->table . " WHERE id = ?";
+            if($stmt = $conn->prepare($sql)){
+                // Bind variables
+                $stmt->bind_param("i", $id); 
+                
+                // execute the prepared statement
+                if($stmt->execute()){     
+                    // fetch the rows and save to data array
+                    $result = $stmt->get_result();
+                    while ($row = $result->fetch_assoc())
+                    {
+                        $data = $row;
+                    }
+                } // end of execute sql block
+                $stmt->close();
+            }  // end of prepare statement block
+       } // end of id check
+       $conn->close();
+       // returns assoc array with query results or an empty array
+       return $data;
+    }  // end of select record function
 
     protected function model_table_exists(){
       $db = New Database();
