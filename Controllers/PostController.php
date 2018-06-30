@@ -66,88 +66,70 @@ class PostController extends Controller
     } // end of index method
 
     public function edit($query){
-        
-         $error = '';
-         if(!empty($query)){
-            
-              $slug = '/post/index/' . trim($query);
-           
-              $post = $this->_model->read_post($slug);
-              
-            
-              $this->_view->set('title',$post[0]['title']);
-            
-              $this->_view->set('body', $post[0]['body']);
-     
-           
-              if($_SERVER["REQUEST_METHOD"] == "POST"){   
-                if ($post[0]['user_username'] === $this->username) {   
-                  if (!empty($_POST['post_body'] ) ){
-                    $body = $_POST['post_body'];
-                    $post_url =  $post[0]['post_link'];
-                     if( $this->_model->edit_post($body, $post_url)){
-                    
+       $error = '';
+       if(!empty($query)){
+          $slug = '/post/index/' . trim($query);
+          $post = $this->_model->read_post($slug);  
+          $this->_view->set('title',$post[0]['title']);
+          $this->_view->set('body', $post[0]['body']);
+          // check for post request
+          if($_SERVER["REQUEST_METHOD"] == "POST"){  
+            // validate user is editing his post
+            if ($post[0]['user_username'] === $this->username) {   
+                if (!empty($_POST['post_body'] ) ){
+                  $body = $_POST['post_body'];
+                  $post_url =  $post[0]['post_link'];
+                  if( $this->_model->edit_post($body, $post_url)){                 
                       $session = New Session();
                       $session->redirect($post_url);
-                     }
                   }
- else {
-                    $error = "Title and body can not be blank";
-                  }
-                  $auth = true;
-                } else {
+                }else {
+                  $error = "Title and body can not be blank";
+                }//end of empty post check
+                $auth = true;
+            } else {
                   $error = "Only authorized users can edit a post";
                   $auth = false;
-                }
-              }
-   // end of post validation block
-              $this->_view->set('error', $error);
-              return $this->_view->render(); 
-        }          
-            
+            } // end of auth user check 
+         } // end of post validation block
+         $this->_view->set('error', $error);
+         return $this->_view->render(); 
+       }  // end of query block
      } // end of edit post function
      
      public function delete($query){
+        $error = '';
+        $confirm = '';     
+        if(!empty($query)){
+           $slug = '/post/index/' . trim($query);
+           if ($post = $this->_model->read_post($slug)){
+              $post = $this->_model->read_post($slug);
+              $title = $post[0]['title'];
+              $body = $post[0]['body'];
+              $this->_view->set('title', $title);
+              $this->_view->set('body', $body );
+              // check if user is auth
+              if ($post[0]['user_username'] === $this->username) { 
+                  $confirm = 'Are you sure you want to delete this post?'; 
 
-
-  $error = '';
-    
-  $confirm = '';     
-  if(!empty($query)){
-     $slug = '/post/index/' . trim($query);
-     if ($post = $this->_model->read_post($slug)){
-        $post = $this->_model->read_post($slug);
-        print_r($post);
-
-        $title = $post[0]['title'];
-        $body = $post[0]['body'];
-
-        $this->_view->set('title', $title);
-        $this->_view->set('body', $body );
-        
-     
-        if ($post[0]['user_username'] === $this->username) { 
-          $confirm = 'Are you sure you want to delete this post?'; 
-
-          if($_SERVER["REQUEST_METHOD"] == "POST"){ 
-             $this->_model->delete_post($slug);
-             $session = New Session();
-             $session->redirect("/post/index/");
-          }
+                  if($_SERVER["REQUEST_METHOD"] == "POST"){ 
+                    $this->_model->delete_post($slug);
+                    $session = New Session();
+                    $session->redirect("/post/index/");
+                  }
+              } else {
+                $error = "Only authorized users can delete a post";
+              } // end of auth user check 
+            } else{
+             $error = 'This post does not exist';
+            }// end of if post exists check block
         } else {
-                  
-          $error = "Only authorized users can delete a post";
-         } // end of auth user check 
-       } else{
-         $error = 'This post does not exist';
-       }// end of if post exists check block
-      } else {
-        $error = 'You must specify a post to delete!';
-      }// end of if empty query check        
-     
-   $this->_view->set('error', $error);
-   $this->_view->set('confirm', $confirm);
-   return $this->_view->render();
-} // end of delete post function
+           $error = 'You must specify a post to delete!';
+        }// end of if empty query check        
+        // send values to the view
+        $this->_view->set('error', $error);
+        $this->_view->set('confirm', $confirm);
+        return $this->_view->render();
+   } // end of delete post function
 
 } // End of PostController class 
