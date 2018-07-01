@@ -23,37 +23,58 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 /* database settings */
-define ('DB_HOST',  '');
-define ('DB_NAME',  'phipmvc');
+define ('DB_HOST',  'localhost');
+define ('DB_NAME',  '');
 define ('DB_USER',   '');
 define ('DB_PASS',   '');
 
-/* manually provided salt. should be changed for each application for security */
-define ('SALT',  'NULL');
+/* 
+  manually provided salt for encryption algorithm.
+  should be changed for each application for security
+  salt generated from https://api.wordpress.org/secret-key/1.1/salt/
+*/
+define ('SALT',  'Hpg&&OKyp@glZ6wluJ]0*8+zyG&3Nl~K[;Hycv<-;K%/Y!iQB2*;g}N:;;9-sUI1');
 
-/* server settings */
+/* 
+    This is the settings for the Superuser of the application.
+    There is only one superuser/admin for this application, and
+    it is defined here. All other users created by the app are
+    designated as standard users with limited access.
+*/
 define('DEFAULT_ADMIN_USERNAME',  '');
 define('DEFAULT_ADMIN_PASSWORD',  '');
-define('DEFAULT_ADMIN_EMAIL',  '');
-/* this is the folder where your installation resides */ 
-define('DEFAULT_WEBSITE_URL', '');
+define('DEFAULT_ADMIN_EMAIL',  'admin@admin.com');
+
+/*set the key value that will identify the user access as admin*/
+define('ADMIN_ROLE_ID', 'vs785adMin');
+
+/*set the key value that will identify the user access as a regular user */
+define('USER_ROLE_ID', '456tverf');
+
+
+/* this is the folder where your installation resides 
+  this is for convenience in designating included css 
+  and js files see STYLESHEET DIR for example
+*/ 
+define('DEFAULT_WEBSITE_URL', 'http://localhost/phipmvc');
+
+/* this is a setting for convenience */
 define('DEFAULT_HOSTNAME',  '');
 
+/* define title for site */
+define ('SITE_TITLE', 'PHIP MVC v2');
 
 /* set the default route in the event of a invalid path */
 define('DEFAULT_PAGE', '/Home/index');
 
 /* set the path to the stylesheets and javascript files */
-define('STYLESHEET_DIR','/phipmvc/css/');
-define('STYLESHEET_DIR','/phipmvc/js/');
+define('STYLESHEET_DIR', DEFAULT_WEBSITE_URL . '/css/');
+define('STYLESHEET_DIR', DEFAULT_WEBSITE_URL . '/js/');
 
-
-/* set debugging features to true */
-ini_set ('display_errors', 1);
-
-
-
-
+/* 
+  set debug to 1 for development, 0 for live
+*/
+DEFINE ('DEBUG', 1);
 
 check_config_setup();
 
