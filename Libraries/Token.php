@@ -42,7 +42,7 @@ Class Token {
         @param $token_length length of string to generate
     */
 
-    Private function generate_token ($token_length ) {
+    Public function generate_token ($token_length ) {
        $txt = "";
        // divide by 2 as 2 characters generated per iteration 
        $length = $token_length / 2;

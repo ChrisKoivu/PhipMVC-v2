@@ -1,4 +1,7 @@
-<?php //include HOME . '/Core/includes/post.inc.php'; ?> 
+<?php
+  $nonce = New Nonce ();
+  $cnonce = $nonce->get_nonce();
+?> 
 <div class="form-wrapper">
 
 <h1>Delete Post</h1>
@@ -13,7 +16,11 @@
 <form action="" method="post">
      <div class="form-group">
         <?php if(!empty ($title)){
-          echo '<input type="submit" class="btn btn-primary" value="Delete">';
+           If($nonce->verify_nonce ($cnonce)){
+             echo '<input type="submit" class="btn btn-primary" value="Delete">';
+           } else {
+             echo '<div class = "help-block"> Invalid Request !</div>';
+           }
         }else{
             echo '<a class="btn btn-secondary" href="/post/index/" role="button">Return &raquo;</a>';
         }  

@@ -1,10 +1,17 @@
 <?php include HOME . '/Core/includes/post.inc.php'; ?> 
+
+<style>
+.form-group{
+    margin-top: 10px;
+}
+</style>
+
 <div class="form-wrapper">
 
 <h2>Add Post</h2>
 
 <p>Please complete this form</p>
- 
+<span class="help-block"><?php echo $error; ?></span>
 <form action="" method="post">
     <div class="form-group"> 
         <label>Title</label> 
