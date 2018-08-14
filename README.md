@@ -15,24 +15,28 @@ This project is a PHP MVC framework that has twitter bootstrap integrated into t
 
 ### How do I get set up? ###
     1. Setup
-        * Copy the folders, index.php, .htaccess, and web.config
-        files to your server's root directory.
-        * Rename .htaccess.txt to .htaccess
+        * Copy the items in your 'place-in-root-folder'
+        folder to your server's root directory.
+        * Rename .htaccess - root to .htaccess
+        * Rename index - root.php to index.php
+        * all other project files remain in 'phipmvc' 
+        folder.
+        
     2. Configuration
         * enable url rewriting for your server software. For Apache,
         visit: http://httpd.apache.org/docs/2.0/misc/rewriteguide.html
+        
     3. Database configuration
-       * you need to have the pdo driver that corresponds to your chosen 
-       database. MySql is selected by default
+       * MySql is the default database. Set your database settings in the
+       /Config/config.php file.
+       
     4. System configuration
        * setup your passwords, your default settings in the /Config/config.php file.
-       * For the email validation, password change, and user activation
-       functionality, you need to sign up for Azure, and install the sendgrid
-       service. This is a free service, and Azure membership is free
+       
     5. Route configuration
-       * setup your default webpage in the index.php file in the route. this determines 
-       what page is the default page to launch when the http address is entered in the 
-       address bar
+       * set your default webpage settings in the index.php file in the root folder. 
+       this determines what page is the default page to launch when the http 
+       address is entered in the address bar
 
 
 
